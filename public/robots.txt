@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# AI crawlers — this CV is intentionally machine-readable (JSON-LD embedded)
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+# Sitemap — replace with your production domain after deploy
+Sitemap: https://sajidafridi.com/sitemap.xml
