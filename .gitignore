@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build output — never commit; Vercel rebuilds it
+dist/
+dist-ssr/
+
+# Vercel
+.vercel/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Env & local
+.env
+.env.*
+!.env.example
+.DS_Store
+*.local
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.next/
+build/
