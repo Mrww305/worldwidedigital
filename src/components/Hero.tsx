@@ -69,6 +69,11 @@ export default function Hero() {
             />
           </h1>
 
+          {/* Semantic tagline for crawlers and LLMs */}
+          <p className="sr-only">
+            Sajid Afridi (mr305) is an AI Governance Architect, MLOps & Zero Trust Architect, Industrial Technologist, and National AI Policy Strategist with 15+ years of experience spanning the 1st through 4th Industrial Revolutions and 6+ years specializing in Data Science, Artificial Intelligence, and Physical AI.
+          </p>
+
           {/* role manifest */}
           <motion.ul
             initial="hidden"
@@ -149,7 +154,7 @@ export default function Hero() {
               href={l.url}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={l.label}
+              aria-label={`${l.id.toUpperCase()} — ${l.label}`}
               className="border border-line px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-dim transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/70 hover:text-signal"
             >
               {l.id}
