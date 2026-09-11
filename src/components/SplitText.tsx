@@ -70,7 +70,6 @@ export default function SplitText({
   return (
     <MotionTag
       className={className}
-      aria-label={text}
       initial="hidden"
       {...(trigger === "view"
         ? { whileInView: "show", viewport: { once: true, margin: "-8% 0px" } }
@@ -146,7 +145,8 @@ export function ScrambleText({
   }, [text, speed, delay, reduce, inView]);
 
   return (
-    <span ref={ref} className={className} aria-label={text}>
+    <span ref={ref} className={className}>
+      <span className="sr-only">{text}</span>
       <span aria-hidden="true">{output}</span>
     </span>
   );

@@ -3,9 +3,9 @@
 @theme {
   --color-void: #000000;
   --color-ink: #e8e8e8;
-  --color-dim: #9a9a9a;
-  --color-faint: #5c5c5c;
-  --color-line: rgba(232, 232, 232, 0.13);
+  --color-dim: #a8a8a8;
+  --color-faint: #7a7a7a;
+  --color-line: rgba(232, 232, 232, 0.16);
   --color-signal: #8fd0e0;
   --color-alert: #d8a05e;
 
@@ -57,6 +57,19 @@ body {
 :focus-visible {
   outline: 1px solid #8fd0e0;
   outline-offset: 3px;
+}
+
+/* Screen-reader-only utility (Tailwind v4 doesn't auto-include it) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 /* Dynamic viewport — pairs with useDynamicVH to dodge mobile address-bar jumps */
