@@ -121,24 +121,16 @@ export default function Contact() {
         <footer className="flex flex-col gap-4 border-t border-line py-8 md:flex-row md:items-center md:justify-between">
           <p className="font-mono text-[9.5px] leading-relaxed tracking-[0.22em] text-faint">
             © 2026 SAJID AFRIDI (MRWW305) — LAHORE · KP · GLOBAL REMOTE
-            <br className="md:hidden" />
-            <span className="hidden md:inline"> · </span>
-            SCHEMA.ORG/PERSON EMBEDDED · JSON-LD VERIFIED
           </p>
-          <div className="flex items-center gap-6">
-            <p className="font-mono text-[9.5px] tracking-[0.22em] text-faint">
-              REACT THREE FIBER · FRAMER MOTION · TYPESCRIPT
-            </p>
-            <a
-              href="#top"
-              className="group flex items-center gap-2 border border-line px-3 py-2 font-mono text-[9.5px] tracking-[0.24em] text-dim transition-all hover:border-signal/70 hover:text-signal"
-            >
-              ASCEND
-              <span className="transition-transform duration-300 group-hover:-translate-y-0.5" aria-hidden="true">
-                ↑
-              </span>
-            </a>
-          </div>
+          <a
+            href="#top"
+            className="group flex items-center gap-2 border border-line px-3 py-2 font-mono text-[9.5px] tracking-[0.24em] text-dim transition-all hover:border-signal/70 hover:text-signal"
+          >
+            ASCEND
+            <span className="transition-transform duration-300 group-hover:-translate-y-0.5" aria-hidden="true">
+              ↑
+            </span>
+          </a>
         </footer>
       </div>
     </section>
