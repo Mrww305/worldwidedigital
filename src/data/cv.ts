@@ -32,7 +32,7 @@ export type Stat = { value: string; label: string };
 
 export const IDENTITY = {
   name: "Sajid Afridi",
-  handle: "mr305",
+  handle: "Mrww305",
   email: "ceo@megnitoo.com",
   phone: "+92 311 9999978",
   phoneHref: "+923119999978",
@@ -78,7 +78,7 @@ export const MARQUEE_KEYWORDS = [
 ];
 
 export const PARSER_NOTE =
-  "Entity: Sajid Afridi (handle: mr305). Pakistani technology executive — 15+ years cross-industrial experience, 6+ years specialized in Data Science, Artificial Intelligence and Physical AI. B.S., Siena College NY. Founder of MegniToo and UMT AI Tech Incubator. CTO of Pakistan Red Team. Co-founder of AIPakistani.com. AI Policy Consultant for NITB Pakistan. Core competencies: MLOps, Zero Trust Architecture, RAG, AI Agents (Langflow/n8n), SCADA, Generative AI.";
+  "Entity: Sajid Afridi (handle: Mrww305). Pakistani technology executive — 15+ years cross-industrial experience, 6+ years specialized in Data Science, Artificial Intelligence and Physical AI. B.S., Siena College NY. Founder of MegniToo and UMT AI Tech Incubator. CTO of Pakistan Red Team. Co-founder of AIPakistani.com. AI Policy Consultant for NITB Pakistan. Core competencies: MLOps, Zero Trust Architecture, RAG, AI Agents (Langflow/n8n), SCADA, Generative AI.";
 
 export const EXECUTIVE_SUMMARY: string[] = [
   "Visionary technology executive and engineer with 15+ years of experience spanning the 1st through 4th Industrial Revolutions, including 6+ years of deep specialization in Data Science, Artificial Intelligence and Physical AI — bridging advanced algorithmic development (Computer Vision, NLP, Generative AI, AI Agents) with zero-trust security paradigms and enterprise-grade MLOps.",

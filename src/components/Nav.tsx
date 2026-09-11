@@ -50,7 +50,7 @@ export default function Nav() {
           href="#top"
           className="pointer-events-auto font-mono text-[13px] font-medium tracking-[0.22em] text-ink transition-colors hover:text-signal"
         >
-          SA<span className="text-signal">—</span>305
+          SA<span className="text-signal">—</span>MRWW305
           <span className="ml-3 hidden text-[10px] font-light tracking-[0.3em] text-faint sm:inline">
             DEEP SPACE CV
           </span>
