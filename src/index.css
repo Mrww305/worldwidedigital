@@ -97,28 +97,42 @@ body {
     linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 18%, transparent 82%, rgba(0, 0, 0, 0.6));
 }
 
-/* Marquee ticker */
+/* Marquee ticker — GPU-composited for mobile Safari/Chrome */
 @keyframes marquee-x {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 @keyframes marquee-x-rev {
   from {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
   to {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 .marquee-track {
   animation: marquee-x 46s linear infinite;
+  animation-play-state: running;
+  animation-fill-mode: forwards;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
 }
 .marquee-track-rev {
   animation: marquee-x-rev 58s linear infinite;
+  animation-play-state: running;
+  animation-fill-mode: forwards;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
 }
 .marquee-track:hover,
 .marquee-track-rev:hover {
