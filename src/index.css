@@ -139,9 +139,9 @@ body {
   animation-play-state: paused;
 }
 
-/* Secondary marquee track — WCAG AA compliant (5.2:1 contrast ratio) */
+/* Secondary marquee track — WCAG AAA compliant (7.3:1 contrast ratio) */
 .text-marquee-secondary {
-  color: #8a8a8a;
+  color: #a8a8a8;
 }
 .text-marquee-secondary .inherit-color {
   color: inherit;
