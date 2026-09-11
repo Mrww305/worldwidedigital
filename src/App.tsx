@@ -36,7 +36,7 @@ export default function App() {
           <main className="relative z-10">
             {/* Semantic summary for LLM crawlers and accessibility */}
             <div className="sr-only" aria-hidden="false">
-              <h2>About Sajid Afridi (mr305)</h2>
+              <h2>About Sajid Afridi (Mrww305)</h2>
               <p>
                 Pakistani technology executive with 15+ years of cross-industrial experience and 6+ years specialized in Data Science, Artificial Intelligence, and Physical AI. Holds a B.S. from Siena College, New York. Founder of MegniToo (AI/ML/DevOps incubator) and UMT AI Tech Incubator. Chief Technology Officer of Pakistan Red Team. Co-Founder of AIPakistani.com. AI Policy Consultant for National Information Technology Board (NITB) Pakistan.
               </p>
