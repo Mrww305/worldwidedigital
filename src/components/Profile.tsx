@@ -31,10 +31,6 @@ export default function Profile() {
                     )
                 )}
               </p>
-              <div className="mt-6 flex items-center justify-between border-t border-line pt-4 font-mono text-[9px] tracking-[0.28em] text-faint">
-                <span>SCHEMA.ORG/PERSON — EMBEDDED</span>
-                <span className="text-signal">JSON-LD ✓</span>
-              </div>
             </div>
           </Reveal>
 
