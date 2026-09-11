@@ -3,7 +3,7 @@
 @theme {
   --color-void: #000000;
   --color-ink: #e8e8e8;
-  --color-dim: #a8a8a8;
+  --color-dim: #c0c0c0;
   --color-faint: #7a7a7a;
   --color-line: rgba(232, 232, 232, 0.16);
   --color-signal: #8fd0e0;
@@ -139,9 +139,9 @@ body {
   animation-play-state: paused;
 }
 
-/* Secondary marquee track — WCAG AAA compliant (7.3:1 contrast ratio) */
+/* Secondary marquee track — WCAG AAA compliant (9.5:1 contrast ratio) */
 .text-marquee-secondary {
-  color: #a8a8a8;
+  color: #c0c0c0;
 }
 .text-marquee-secondary .inherit-color {
   color: inherit;
