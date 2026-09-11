@@ -4,12 +4,15 @@ Allow: /
 # AI crawlers — this CV is intentionally machine-readable (JSON-LD embedded)
 User-agent: GPTBot
 Allow: /
+User-agent: ChatGPT-User
+Allow: /
 User-agent: ClaudeBot
 Allow: /
 User-agent: PerplexityBot
 Allow: /
 User-agent: Google-Extended
 Allow: /
+User-agent: CCBot
+Allow: /
 
-# Sitemap — replace with your production domain after deploy
-Sitemap: https://sajidafridi.com/sitemap.xml
+Sitemap: https://worldwidedigital.vercel.app/sitemap.xml
