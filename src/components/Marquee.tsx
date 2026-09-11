@@ -99,7 +99,7 @@ function Track({ reverse, className }: { reverse?: boolean; className?: string }
       >
         {row.map((word, i) => (
           <span key={`${word}-${i}`} className="flex shrink-0 items-center">
-            <span className="px-6 font-mono text-[11px] font-light tracking-[0.4em] text-dim">
+            <span className="px-6 font-mono text-[11px] font-light tracking-[0.4em] text-dim inherit-color">
               {word}
             </span>
             <span className="text-signal/60">✦</span>
@@ -114,7 +114,7 @@ export default function Marquee() {
   return (
     <section aria-label="Core keywords ticker" className="relative z-10 my-0">
       <Track />
-      <Track reverse className="opacity-60" />
+      <Track reverse className="text-marquee-secondary" />
     </section>
   );
 }
