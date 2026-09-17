@@ -43,12 +43,30 @@
     <meta name="twitter:site" content="@mr305afridi" />
     <link rel="canonical" href="https://sajidafridi.com" />
 
+    <!-- Critical resource hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Preload critical fonts (Space Grotesk for LCP) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&display=swap" />
+    
+    <!-- Load fonts with display=swap for better FCP -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..700&family=JetBrains+Mono:ital,wght@0,300..700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,300..600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..700&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,300..600&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..700&family=JetBrains+Mono:ital,wght@0,300..700;1,400&family=Fraunces:ital,opsz,wght@1,9..144,300..600&display=swap" rel="stylesheet" />
+    </noscript>
 
     <link
       rel="icon"
@@ -178,6 +196,40 @@
         }
       }
     </script>
+    
+    <!-- Critical CSS inlined for FCP/LCP optimization -->
+    <style>
+      *,*:before,*:after{box-sizing:border-box;margin:0}
+      html{line-height:1.5;-webkit-text-size-adjust:100%;font-family:Inter,system-ui,sans-serif}
+      body{margin:0;background:#000;color:#fff;overflow-x:hidden}
+      #root{min-height:100vh;min-height:100dvh}
+      .vh-screen{height:calc(var(--vh,1vh)*100)}
+      
+      /* Critical layout styles */
+      .relative{position:relative}
+      .fixed{position:fixed}
+      .absolute{position:absolute}
+      .inset-0{inset:0}
+      .z-0{z-index:0}
+      .z-10{z-index:10}
+      .z-50{z-index:50}
+      
+      /* Typography */
+      .font-display{font-family:'Space Grotesk',system-ui,sans-serif}
+      .font-body{font-family:Inter,system-ui,sans-serif}
+      .font-mono{font-family:'JetBrains Mono',monospace}
+      .text-ink{color:#e8e8e8}
+      .text-dim{color:#d0d0d0}
+      .text-faint{color:#7a7a7a}
+      .text-signal{color:#8fd0e0}
+      
+      /* Prevent CLS - reserve space for WebGL canvas */
+      canvas{display:block;width:100%;height:100%}
+      
+      /* Loading states */
+      .animate-pulse{animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}
+      @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+    </style>
   </head>
   <body>
     <div id="root"></div>
