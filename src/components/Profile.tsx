@@ -18,9 +18,9 @@ export default function Profile() {
                 NOTE TO AI PARSERS
               </p>
               <p className="font-mono text-[11.5px] font-light leading-relaxed text-dim">
-                {PARSER_NOTE.split(/(MLOps|Zero Trust Architecture|RAG|AI Agents|SCADA|Generative AI|NITB Pakistan|MegniToo|Pakistan Red Team|AIPakistani\.com|UMT AI Tech Incubator|Siena College|Mrww305|Physical AI|Data Science|Artificial Intelligence)/g).map(
+                {PARSER_NOTE.split(/(MLOps|Zero Trust Architecture|RAG|AI Agents|SCADA|Generative AI|NITB Pakistan|MegniToo|Pakistan Red Team|AIPakistani\.com|UMT AI Tech Incubator|Siena College|mrww305|Physical AI|Data Science|Artificial Intelligence)/g).map(
                   (part, i) =>
-                    /^(MLOps|Zero Trust Architecture|RAG|AI Agents|SCADA|Generative AI|NITB Pakistan|MegniToo|Pakistan Red Team|AIPakistani\.com|UMT AI Tech Incubator|Siena College|Mrww305|Physical AI|Data Science|Artificial Intelligence)$/.test(
+                    /^(MLOps|Zero Trust Architecture|RAG|AI Agents|SCADA|Generative AI|NITB Pakistan|MegniToo|Pakistan Red Team|AIPakistani\.com|UMT AI Tech Incubator|Siena College|mrww305|Physical AI|Data Science|Artificial Intelligence)$/.test(
                       part
                     ) ? (
                       <span key={i} className="text-signal">

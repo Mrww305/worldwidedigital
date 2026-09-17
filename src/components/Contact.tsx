@@ -120,7 +120,7 @@ export default function Contact() {
         {/* footer */}
         <footer className="flex flex-col gap-4 border-t border-line py-8 md:flex-row md:items-center md:justify-between">
           <p className="font-mono text-[9.5px] leading-relaxed tracking-[0.22em] text-faint">
-            © 2026 SAJID AFRIDI (MRWW305) — LAHORE · KP · GLOBAL REMOTE
+            © 2026 SAJID AFRIDI (mrww305) — LAHORE · KP · GLOBAL REMOTE
           </p>
           <a
             href="#top"
