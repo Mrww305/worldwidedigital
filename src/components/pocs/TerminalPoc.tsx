@@ -34,7 +34,7 @@ function respond(cmd: string): Line[] {
       return HELP.map((h) => ({ kind: "out", text: h }));
     case "whoami":
       return [
-        { kind: "out", text: "SAJID AFRIDI — handle: mr305" },
+        { kind: "out", text: "SAJID AFRIDI — handle: mrww305" },
         { kind: "out", text: "AI Governance Architect · MLOps & Zero Trust Architect" },
         { kind: "out", text: "Industrial Technologist · National AI Policy Strategist" },
         { kind: "out", text: "15+ yrs across Industry 1.0 → 4.0 · 6+ yrs deep in AI/DS" },
@@ -97,7 +97,7 @@ function respond(cmd: string): Line[] {
     case "banner":
       return [
         { kind: "out", text: "┌──────────────────────────────────────┐" },
-        { kind: "out", text: "│  MR305 // DEEPFIELD STATION          │" },
+        { kind: "out", text: "│  mrww305 // DEEPFIELD STATION        │" },
         { kind: "out", text: "│  SAJID AFRIDI — DEEP SPACE CV v4.0   │" },
         { kind: "out", text: "│  LAHORE · KP · GLOBAL REMOTE         │" },
         { kind: "out", text: "└──────────────────────────────────────┘" },
@@ -156,7 +156,7 @@ export default function TerminalPoc() {
   return (
     <MiniPocWindow
       title="zero-trust-shell"
-      subtitle="mr305@deepfield"
+      subtitle="mrww305@deepfield"
       status="LIVE"
       className="h-full"
     >
@@ -183,7 +183,7 @@ export default function TerminalPoc() {
             >
               {l.kind === "in" ? (
                 <>
-                  <span className="text-signal">mr305@zt</span>
+                  <span className="text-signal">mrww305@zt</span>
                   <span className="text-faint">:~$</span> {l.text}
                 </>
               ) : (
@@ -192,7 +192,7 @@ export default function TerminalPoc() {
             </p>
           ))}
           <div className="flex items-center gap-1">
-            <span className="text-signal">mr305@zt</span>
+            <span className="text-signal">mrww305@zt</span>
             <span className="text-faint">:~$</span>
             <input
               ref={inputRef}

@@ -46,7 +46,7 @@ export default function Hero() {
           >
             <span className="text-signal">◉</span>
             OPERATOR HANDLE //
-            <ScrambleText text="mr305" className="text-ink" delay={700} />
+            <ScrambleText text="mrww305" className="text-ink" delay={700} />
             <span className="text-faint">— TRANSMISSION v4.0</span>
           </motion.p>
 
@@ -71,7 +71,7 @@ export default function Hero() {
 
           {/* Semantic tagline for crawlers and LLMs */}
           <p className="sr-only">
-            Sajid Afridi (mr305) is an AI Governance Architect, MLOps & Zero Trust Architect, Industrial Technologist, and National AI Policy Strategist with 15+ years of experience spanning the 1st through 4th Industrial Revolutions and 6+ years specializing in Data Science, Artificial Intelligence, and Physical AI.
+            Sajid Afridi (mrww305) is an AI Governance Architect, MLOps & Zero Trust Architect, Industrial Technologist, and National AI Policy Strategist with 15+ years of experience spanning the 1st through 4th Industrial Revolutions and 6+ years specializing in Data Science, Artificial Intelligence, and Physical AI.
           </p>
 
           {/* role manifest */}

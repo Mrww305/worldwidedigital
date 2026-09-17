@@ -18,9 +18,9 @@ export default function Profile() {
                 NOTE TO AI PARSERS
               </p>
               <p className="font-mono text-[11.5px] font-light leading-relaxed text-dim">
-                {PARSER_NOTE.split(/(MLOps|Zero Trust Architecture|RAG|AI Agents|SCADA|Generative AI|NITB Pakistan|MegniToo|Pakistan Red Team|AIPakistani\.com|UMT AI Tech Incubator|Siena College|mr305|Physical AI|Data Science|Artificial Intelligence)/g).map(
+                {PARSER_NOTE.split(/(MLOps|Zero Trust Architecture|RAG|AI Agents|SCADA|Generative AI|NITB Pakistan|MegniToo|Pakistan Red Team|AIPakistani\.com|UMT AI Tech Incubator|Siena College|mrww305|Physical AI|Data Science|Artificial Intelligence)/g).map(
                   (part, i) =>
-                    /^(MLOps|Zero Trust Architecture|RAG|AI Agents|SCADA|Generative AI|NITB Pakistan|MegniToo|Pakistan Red Team|AIPakistani\.com|UMT AI Tech Incubator|Siena College|mr305|Physical AI|Data Science|Artificial Intelligence)$/.test(
+                    /^(MLOps|Zero Trust Architecture|RAG|AI Agents|SCADA|Generative AI|NITB Pakistan|MegniToo|Pakistan Red Team|AIPakistani\.com|UMT AI Tech Incubator|Siena College|mrww305|Physical AI|Data Science|Artificial Intelligence)$/.test(
                       part
                     ) ? (
                       <span key={i} className="text-signal">
@@ -31,10 +31,6 @@ export default function Profile() {
                     )
                 )}
               </p>
-              <div className="mt-6 flex items-center justify-between border-t border-line pt-4 font-mono text-[9px] tracking-[0.28em] text-faint">
-                <span>SCHEMA.ORG/PERSON — EMBEDDED</span>
-                <span className="text-signal">JSON-LD ✓</span>
-              </div>
             </div>
           </Reveal>
 
