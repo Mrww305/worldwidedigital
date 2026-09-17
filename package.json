@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "deploy:hostinger": "bash deploy-hostinger.sh",
+    "deploy:hostinger:win": "powershell -ExecutionPolicy Bypass -File deploy-hostinger.ps1"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
