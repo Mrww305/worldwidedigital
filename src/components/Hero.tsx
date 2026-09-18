@@ -22,7 +22,7 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 1.2 }}
+        transition={{ delay: 0.1, duration: 0.6 }}
         className="flex items-center justify-between font-mono text-[10px] tracking-[0.26em] text-faint"
       >
         <span>
@@ -41,32 +41,19 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55, duration: 0.8 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
             className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] tracking-[0.3em] text-dim"
           >
             <span className="text-signal">◉</span>
             OPERATOR HANDLE //
-            <ScrambleText text="mrww305" className="text-ink" delay={700} />
+            <ScrambleText text="mrww305" className="text-ink" delay={300} />
             <span className="text-faint">— TRANSMISSION v4.0</span>
           </motion.p>
 
-          <h1 className="font-display font-bold leading-[0.86] tracking-[-0.045em] text-ink">
-            <SplitText
-              text="SAJID"
-              as="span"
-              trigger="mount"
-              delay={0.25}
-              stagger={0.07}
-              className="block text-[clamp(3.6rem,15vw,11.5rem)]"
-            />
-            <SplitText
-              text="AFRIDI"
-              as="span"
-              trigger="mount"
-              delay={0.62}
-              stagger={0.07}
-              className="block text-[clamp(3.6rem,15vw,11.5rem)]"
-            />
+          {/* LCP element - render immediately without animation */}
+          <h1 className="font-display font-bold leading-[0.86] tracking-[-0.045em] text-ink" style={{ minHeight: '2.4em' }}>
+            <span className="block text-[clamp(3.6rem,15vw,11.5rem)]">SAJID</span>
+            <span className="block text-[clamp(3.6rem,15vw,11.5rem)]">AFRIDI</span>
           </h1>
 
           {/* Semantic tagline for crawlers and LLMs */}
@@ -80,7 +67,7 @@ export default function Hero() {
             animate="show"
             variants={{
               hidden: {},
-              show: { transition: { staggerChildren: 0.09, delayChildren: 1.15 } },
+              show: { transition: { staggerChildren: 0.05, delayChildren: 0.4 } },
             }}
             className="mt-7 flex max-w-3xl flex-col gap-1.5"
           >
@@ -117,7 +104,7 @@ export default function Hero() {
         <motion.dl
           initial={{ opacity: 0, x: 24 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.0, duration: 1 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
           className="hidden w-44 flex-col gap-4 border-l border-line pl-5 lg:flex"
         >
           {READOUTS.map((r) => (
@@ -135,7 +122,7 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.3, duration: 1 }}
+        transition={{ delay: 0.5, duration: 0.6 }}
         className="flex items-end justify-between gap-6"
       >
         <div className="flex items-center gap-4">
