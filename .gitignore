@@ -1,28 +1,53 @@
 # Dependencies
 node_modules/
+.pnp
+.pnp.js
 
-# Build output — never commit; Vercel rebuilds it
+# Build output
 dist/
-dist-ssr/
+build/
+.next/
+deploy/
 
-# Vercel
-.vercel/
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Logs
-logs/
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
-# Env & local
-.env
-.env.*
-!.env.example
-.DS_Store
-*.local
-
-# Editors
+# Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea/
-.next/
-build/
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+.vercel
+.netlify
+*.pem

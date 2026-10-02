@@ -21,8 +21,10 @@ function Starfield({ count, reduced }: { count: number; reduced: boolean }) {
   const ref = useRef<THREE.Points>(null);
 
   const positions = useMemo(() => {
-    const arr = new Float32Array(count * 3);
-    for (let i = 0; i < count; i += 1) {
+    // Reduce particle count for better performance
+    const optimizedCount = Math.min(count, 800);
+    const arr = new Float32Array(optimizedCount * 3);
+    for (let i = 0; i < optimizedCount; i += 1) {
       arr[i * 3] = gauss(26);
       arr[i * 3 + 1] = gauss(16);
       arr[i * 3 + 2] = gauss(22) - 8;
@@ -60,14 +62,15 @@ function NeuralConstellation({ reduced }: { reduced: boolean }) {
   const group = useRef<THREE.Group>(null);
 
   const { nodePositions, edgePositions } = useMemo(() => {
-    const nodeCount = 150;
+    // Reduce node count for better performance
+    const nodeCount = 100;
     const nodes: [number, number, number][] = [];
     for (let i = 0; i < nodeCount; i += 1) {
       nodes.push([gauss(7.5), gauss(4.2), gauss(5.5) - 2]);
     }
     const edges: number[] = [];
     const MAX_DIST = 2.55;
-    let budget = 240;
+    let budget = 160;
     for (let i = 0; i < nodeCount && budget > 0; i += 1) {
       let links = 0;
       for (let j = i + 1; j < nodeCount && links < 3 && budget > 0; j += 1) {
@@ -213,14 +216,14 @@ export default function WebGLBackground() {
     <Canvas
       style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}
       camera={{ position: [0, 0, 14], fov: 50 }}
-      dpr={[1, 1.75]}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      dpr={[1, 1.5]}
+      gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
       frameloop={reduced ? "demand" : "always"}
       onCreated={({ invalidate }) => {
         if (reduced) invalidate();
       }}
     >
-      <Starfield count={1500} reduced={reduced} />
+      <Starfield count={800} reduced={reduced} />
       <NeuralConstellation reduced={reduced} />
       <CoreWire reduced={reduced} />
       <Rig reduced={reduced} />
