@@ -12,7 +12,9 @@ const NAV_LINKS = [
 ];
 
 export default function Nav() {
-  const [scrolled, setScrolled] = useState(false);
+  const scrolledState = useState(false);
+  const scrolled = scrolledState[0];
+  const setScrolled = scrolledState[1];
   const { scrollYProgress } = useScroll();
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {

@@ -26,19 +26,37 @@ const INITIAL: Record<StageId, StageStatus> = {
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
 export default function PipelinePoc() {
-  const [statuses, setStatuses] = useState<Record<StageId, StageStatus>>(INITIAL);
-  const [phase, setPhase] = useState<"IDLE" | "RUNNING" | "ROLLBACK" | "DEPLOYED">("IDLE");
-  const [driftArmed, setDriftArmed] = useState(false);
-  const [logs, setLogs] = useState<string[]>([
+  const statusesState = useState<Record<StageId, StageStatus>>(INITIAL);
+  const statuses = statusesState[0];
+  const setStatuses = statusesState[1];
+  const phaseState = useState<"IDLE" | "RUNNING" | "ROLLBACK" | "DEPLOYED">("IDLE");
+  const phase = phaseState[0];
+  const setPhase = phaseState[1];
+  const driftArmedState = useState(false);
+  const driftArmed = driftArmedState[0];
+  const setDriftArmed = driftArmedState[1];
+  const logsState = useState<string[]>([
     "> manifest loaded — mlops-enterprise-pipeline v2.3",
     "> registry: model artifacts signed ✓ · SBOM verified ✓",
     "> awaiting operator command…",
   ]);
-  const [epoch, setEpoch] = useState(0);
-  const [loss, setLoss] = useState(2.42);
-  const [acc, setAcc] = useState(31.8);
-  const [gpu, setGpu] = useState(0);
-  const [spark, setSpark] = useState<number[]>([]);
+  const logs = logsState[0];
+  const setLogs = logsState[1];
+  const epochState = useState(0);
+  const epoch = epochState[0];
+  const setEpoch = epochState[1];
+  const lossState = useState(2.42);
+  const loss = lossState[0];
+  const setLoss = lossState[1];
+  const accState = useState(31.8);
+  const acc = accState[0];
+  const setAcc = accState[1];
+  const gpuState = useState(0);
+  const gpu = gpuState[0];
+  const setGpu = gpuState[1];
+  const sparkState = useState<number[]>([]);
+  const spark = sparkState[0];
+  const setSpark = sparkState[1];
 
   const runId = useRef(0);
   const driftRef = useRef(false);

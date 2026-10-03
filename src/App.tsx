@@ -17,7 +17,9 @@ import Competencies from "./components/Competencies";
 import Experience from "./components/Experience";
 
 export default function App() {
-  const [isClient, setIsClient] = useState(false);
+  const isClientState = useState(false);
+  const isClient = isClientState[0];
+  const setIsClient = isClientState[1];
 
   useEffect(() => {
     setIsClient(true);

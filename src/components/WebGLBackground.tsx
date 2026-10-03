@@ -17,7 +17,9 @@ function gauss(scale: number): number {
 
 /* ------------------------------ Starfield ------------------------------ */
 
-function Starfield({ count, reduced }: { count: number; reduced: boolean }) {
+function Starfield(props: { count: number; reduced: boolean }) {
+  const count = props.count;
+  const reduced = props.reduced;
   const ref = useRef<THREE.Points>(null);
 
   const positions = useMemo(() => {
@@ -58,10 +60,11 @@ function Starfield({ count, reduced }: { count: number; reduced: boolean }) {
 
 /* --------------------------- Neural constellation ---------------------- */
 
-function NeuralConstellation({ reduced }: { reduced: boolean }) {
+function NeuralConstellation(props: { reduced: boolean }) {
+  const reduced = props.reduced;
   const group = useRef<THREE.Group>(null);
 
-  const { nodePositions, edgePositions } = useMemo(() => {
+  const useMemoResult = useMemo(() => {
     // Reduce node count for better performance
     const nodeCount = 100;
     const nodes: [number, number, number][] = [];
@@ -93,6 +96,9 @@ function NeuralConstellation({ reduced }: { reduced: boolean }) {
     });
     return { nodePositions: np, edgePositions: new Float32Array(edges) };
   }, []);
+
+  const nodePositions = useMemoResult.nodePositions;
+  const edgePositions = useMemoResult.edgePositions;
 
   useFrame((state, delta) => {
     if (!group.current) return;
@@ -155,7 +161,8 @@ function NeuralConstellation({ reduced }: { reduced: boolean }) {
 
 /* ------------------------------- Core wire ----------------------------- */
 
-function CoreWire({ reduced }: { reduced: boolean }) {
+function CoreWire(props: { reduced: boolean }) {
+  const reduced = props.reduced;
   const ref = useRef<THREE.Mesh>(null);
 
   useFrame((state, delta) => {
@@ -182,7 +189,8 @@ function CoreWire({ reduced }: { reduced: boolean }) {
 
 /* ------------------------------ Camera rig ----------------------------- */
 
-function Rig({ reduced }: { reduced: boolean }) {
+function Rig(props: { reduced: boolean }) {
+  const reduced = props.reduced;
   useFrame((state, delta) => {
     if (reduced) return;
     const cam = state.camera;

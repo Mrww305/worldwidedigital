@@ -19,13 +19,21 @@ const walk = (cur: number, target: number, noise: number) =>
   cur + (target - cur) * 0.3 + (Math.random() - 0.5) * noise;
 
 export default function ScadaPoc() {
-  const [t, setT] = useState<Telemetry>(BASE);
-  const [fault, setFault] = useState(false);
-  const [auto, setAuto] = useState(true);
-  const [logs, setLogs] = useState<string[]>([
+  const tState = useState<Telemetry>(BASE);
+  const t = tState[0];
+  const setT = tState[1];
+  const faultState = useState(false);
+  const fault = faultState[0];
+  const setFault = faultState[1];
+  const autoState = useState(true);
+  const auto = autoState[0];
+  const setAuto = autoState[1];
+  const logsState = useState<string[]>([
     "SCADA link established — 5 nodes on Modbus/TCP",
     "batch line nominal · sampling @ 900 ms",
   ]);
+  const logs = logsState[0];
+  const setLogs = logsState[1];
 
   const faultRef = useRef(false);
   const autoRef = useRef(true);

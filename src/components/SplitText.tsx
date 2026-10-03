@@ -29,18 +29,17 @@ export type SplitTextProps = {
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-export default function SplitText({
-  text,
-  as = "span",
-  className,
-  mode = "chars",
-  delay = 0,
-  stagger = 0.034,
-  duration = 0.9,
-  y = "0.42em",
-  blur = "0.32em",
-  trigger = "view",
-}: SplitTextProps) {
+export default function SplitText(props: SplitTextProps) {
+  const text = props.text;
+  const as = props.as ?? "span";
+  const className = props.className;
+  const mode = props.mode ?? "chars";
+  const delay = props.delay ?? 0;
+  const stagger = props.stagger ?? 0.034;
+  const duration = props.duration ?? 0.9;
+  const y = props.y ?? "0.42em";
+  const blur = props.blur ?? "0.32em";
+  const trigger = props.trigger ?? "view";
   const reduce = useReducedMotion();
 
   const units =
@@ -96,21 +95,22 @@ export default function SplitText({
 
 const GLYPHS = "!<>-_\\/[]{}=+*^?#01";
 
-export function ScrambleText({
-  text,
-  className,
-  speed = 34,
-  delay = 200,
-}: {
+export function ScrambleText(props: {
   text: string;
   className?: string;
   speed?: number;
   delay?: number;
 }) {
+  const text = props.text;
+  const className = props.className;
+  const speed = props.speed ?? 34;
+  const delay = props.delay ?? 200;
   const reduce = useReducedMotion();
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px 0px" });
-  const [output, setOutput] = useState<string>(reduce ? text : "\u00A0");
+  const outputState = useState<string>(reduce ? text : "\u00A0");
+  const output = outputState[0];
+  const setOutput = outputState[1];
 
   useEffect(() => {
     if (reduce || !inView) {

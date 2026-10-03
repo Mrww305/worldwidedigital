@@ -9,7 +9,8 @@ import { useDynamicVH } from "../hooks/useDynamicVH";
  * the real visible viewport so hero sections sized with
  * `height: calc(var(--vh, 1vh) * 100)` never overflow on mobile.
  */
-export default function DynamicVHProvider({ children }: { children?: ReactNode }) {
+export default function DynamicVHProvider(props: { children?: ReactNode }) {
+  const children = props.children;
   useDynamicVH();
   return <>{children ?? null}</>;
 }

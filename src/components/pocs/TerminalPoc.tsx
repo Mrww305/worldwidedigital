@@ -118,8 +118,12 @@ function respond(cmd: string): Line[] {
 const QUICK_CMDS = ["whoami", "roles", "redteam", "scada", "trace", "contact"];
 
 export default function TerminalPoc() {
-  const [lines, setLines] = useState<Line[]>([]);
-  const [input, setInput] = useState("");
+  const linesState = useState<Line[]>([]);
+  const lines = linesState[0];
+  const setLines = linesState[1];
+  const inputState = useState("");
+  const input = inputState[0];
+  const setInput = inputState[1];
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 

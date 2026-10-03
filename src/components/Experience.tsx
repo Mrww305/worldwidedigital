@@ -9,7 +9,8 @@ const HIGHLIGHT_RE =
 const IS_HIGHLIGHT =
   /^(12% to 6%|50% reduction|PKR 300 Million|80% sales recovery|National Artificial Intelligence \(AI\) Policy 2025|SCADA|Zero Trust|Generative AI|Multi-Agent Systems|prompt injection|M2C|OT\/IT|CPEC|Pakistan's first|Pakistan's premier)$/;
 
-function Bullet({ text }: { text: string }) {
+function Bullet(props: { text: string }) {
+  const text = props.text;
   const parts = text.split(HIGHLIGHT_RE);
   return (
     <li className="flex gap-3 py-1 font-body text-[13.5px] font-light leading-relaxed text-dim md:text-sm">

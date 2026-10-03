@@ -3,12 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import { MARQUEE_KEYWORDS } from "../data/cv";
 
-function Track({ reverse, className }: { reverse?: boolean; className?: string }) {
+function Track(props: { reverse?: boolean; className?: string }) {
+  const reverse = props.reverse;
+  const className = props.className;
   const row = [...MARQUEE_KEYWORDS, ...MARQUEE_KEYWORDS];
   const trackRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
   const positionRef = useRef(0);
-  const [useJS, setUseJS] = useState(false);
+  const useJSState = useState(false);
+  const useJS = useJSState[0];
+  const setUseJS = useJSState[1];
 
   useEffect(() => {
     const track = trackRef.current;

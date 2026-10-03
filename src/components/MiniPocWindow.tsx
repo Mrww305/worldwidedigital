@@ -4,19 +4,18 @@ import type { ReactNode } from "react";
 
 export type PocStatus = "LIVE" | "IDLE" | "ALERT";
 
-export default function MiniPocWindow({
-  title,
-  subtitle,
-  status = "LIVE",
-  className = "",
-  children,
-}: {
+export default function MiniPocWindow(props: {
   title: string;
   subtitle?: string;
   status?: PocStatus;
   className?: string;
   children: ReactNode;
 }) {
+  const title = props.title;
+  const subtitle = props.subtitle;
+  const status = props.status ?? "LIVE";
+  const className = props.className ?? "";
+  const children = props.children;
   const tone =
     status === "LIVE" ? "bg-signal led-live" : status === "ALERT" ? "bg-alert led-alert" : "bg-faint";
 

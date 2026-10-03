@@ -9,7 +9,8 @@ const TerminalPoc = lazy(() => import("./pocs/TerminalPoc"));
 const PipelinePoc = lazy(() => import("./pocs/PipelinePoc"));
 const ScadaPoc = lazy(() => import("./pocs/ScadaPoc"));
 
-function PocFallback({ title }: { title: string }) {
+function PocFallback(props: { title: string }) {
+  const title = props.title;
   return (
     <MiniPocWindow title={title} status="IDLE" className="h-full">
       <div className="flex h-full items-center justify-center">

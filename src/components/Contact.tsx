@@ -6,7 +6,9 @@ import { Reveal } from "./Section";
 import { IDENTITY, LINKS } from "../data/cv";
 
 export default function Contact() {
-  const [copied, setCopied] = useState(false);
+  const copiedState = useState(false);
+  const copied = copiedState[0];
+  const setCopied = copiedState[1];
 
   const copyEmail = async () => {
     try {

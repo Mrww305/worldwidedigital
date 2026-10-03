@@ -6,17 +6,16 @@ import { motion, useReducedMotion } from "framer-motion";
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 /* Line-mask reveal used for every section heading. */
-export function SectionHeading({
-  index,
-  title,
-  note,
-  id,
-}: {
+export function SectionHeading(props: {
   index: string;
   title: string;
   note?: string;
   id?: string;
 }) {
+  const index = props.index;
+  const title = props.title;
+  const note = props.note;
+  const id = props.id;
   const reduce = useReducedMotion();
   return (
     <div className="mb-12 md:mb-16">
@@ -53,17 +52,16 @@ export function SectionHeading({
 }
 
 /* Generic scroll-reveal wrapper. */
-export function Reveal({
-  children,
-  delay = 0,
-  y = 26,
-  className,
-}: {
+export function Reveal(props: {
   children: ReactNode;
   delay?: number;
   y?: number;
   className?: string;
 }) {
+  const children = props.children;
+  const delay = props.delay ?? 0;
+  const y = props.y ?? 26;
+  const className = props.className;
   const reduce = useReducedMotion();
   return (
     <motion.div
