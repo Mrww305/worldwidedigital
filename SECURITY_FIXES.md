@@ -6,7 +6,8 @@ Successfully resolved all 4 security vulnerabilities reported in the dependency 
 
 **Status:** ✅ All vulnerabilities fixed  
 **Build Status:** ✅ Production ready  
-**Vulnerabilities Remaining:** 0
+**Vulnerabilities Remaining:** 0  
+**esbuild Version:** 0.28.2 (✅ exceeds required 0.28.1)
 
 ---
 
@@ -15,10 +16,10 @@ Successfully resolved all 4 security vulnerabilities reported in the dependency 
 ### 1. esbuild (High Severity)
 - **CVE:** GHSA-gv7w-rqvm-qjhr
 - **Previous Version:** 0.25.12
-- **Fixed Version:** 0.28.1
+- **Fixed Version:** 0.28.2
 - **Issue:** Missing binary integrity verification in Deno module enables remote code execution via NPM_CONFIG_REGISTRY
-- **Fix Method:** Added npm override in package.json
-- **Impact:** Transitive dependency from Vite
+- **Fix Method:** Upgraded to ^0.28.2 in dependencies + added npm override in package.json
+- **Impact:** Direct dependency (also used as transitive dependency from Vite)
 
 ### 2. uuid (High Severity)
 - **CVE:** CVE-2026-41907
@@ -51,22 +52,23 @@ Successfully resolved all 4 security vulnerabilities reported in the dependency 
 ```json
 {
   "dependencies": {
-    "react-router-dom": "^7.18.0",  // was ^6.8.0
+    "esbuild": "^0.28.2",            // was 0.25.12 (transitive)
+    "react-router-dom": "^7.18.4",   // was ^6.8.0
     "uuid": "^11.1.1"                // was ^9.0.1
   },
   "devDependencies": {
     // Removed @types/uuid (uuid v11 has built-in TypeScript types)
   },
   "overrides": {
-    "esbuild": "^0.28.1"             // Added to fix transitive dependency
+    "esbuild": "^0.28.1"             // Ensures all esbuild instances >= 0.28.1
   }
 }
 ```
 
 ### Dependency Changes
-- **Added:** uuid@11.1.1, react-router-dom@7.18.0
+- **Added:** esbuild@0.28.2, uuid@11.1.1, react-router-dom@7.18.4
 - **Removed:** uuid@9.0.1, react-router-dom@6.8.0, @types/uuid@9.0.7
-- **Updated:** esbuild@0.28.1 (via override)
+- **Updated:** esbuild from 0.25.12 to 0.28.2 (exceeds required 0.28.1)
 
 ---
 
@@ -92,15 +94,24 @@ React Router v7 introduced several breaking changes, but none affected this code
 ```bash
 npm audit
 ```
-**Result:** found 0 vulnerabilities
+**Result:** ✅ found 0 vulnerabilities
+
+### Installed Versions
+```bash
+npm list esbuild uuid react-router-dom
+```
+**Result:**
+- esbuild@0.28.2 (✅ >= 0.28.1 required)
+- uuid@11.1.1 (✅ >= 11.1.1 required)
+- react-router-dom@7.18.4 (✅ >= 7.18.0 required)
 
 ### Build Test
 ```bash
 npm run build
 ```
 **Result:** ✅ Build successful
-- dist/index.html: 3.19 kB (gzip: 1.38 kB)
-- dist/assets/index.css: 5.98 kB (gzip: 1.84 kB)
+- dist/index.html: 3.19 kB (gzip: 1.37 kB)
+- dist/assets/index.css: 27.22 kB (gzip: 5.86 kB)
 - dist/assets/index.js: 143.61 kB (gzip: 46.11 kB)
 
 ### Type Check
@@ -150,12 +161,12 @@ npm run typecheck
 If issues arise after deployment:
 
 ```bash
-# Revert to previous versions
-npm install uuid@9.0.1 react-router-dom@6.8.0
+# Revert to previous versions (NOT RECOMMENDED - reintroduces vulnerabilities)
+npm install uuid@9.0.1 react-router-dom@6.8.0 esbuild@0.25.12
 npm run build
 ```
 
-**Note:** This will reintroduce the vulnerabilities, so only use as temporary measure.
+**Note:** This will reintroduce all 4 vulnerabilities, so only use as temporary measure while investigating issues.
 
 ---
 
