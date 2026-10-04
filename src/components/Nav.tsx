@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 
 const NAV_LINKS = [
   { id: "profile", label: "PROFILE", n: "01" },
@@ -15,31 +14,32 @@ export default function Nav() {
   const scrolledState = useState(false);
   const scrolled = scrolledState[0];
   const setScrolled = scrolledState[1];
-  const { scrollYProgress } = useScroll();
-
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    setScrolled(window.scrollY > 32);
-    void v;
-  });
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 32);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 32);
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? window.scrollY / scrollHeight : 0;
+      setScrollProgress(progress);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <motion.header
-      initial={{ y: -64, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-      className="fixed inset-x-0 top-0 z-50"
+    <header
+      className="fixed inset-x-0 top-0 z-50 animate-[slideDown_0.9s_ease-out_0.15s_both]"
+      style={{
+        animation: 'slideDown 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both'
+      }}
     >
       {/* scroll progress hairline */}
-      <motion.div
+      <div
         aria-hidden="true"
-        className="absolute left-0 top-0 h-[2px] w-full origin-left bg-signal"
-        style={{ scaleX: scrollYProgress }}
+        className="absolute left-0 top-0 h-[2px] w-full origin-left bg-signal transition-transform duration-150"
+        style={{ transform: `scaleX(${scrollProgress})` }}
       />
       <div
         className={`flex items-center justify-between px-5 py-4 transition-all duration-500 md:px-10 ${
@@ -86,6 +86,6 @@ export default function Nav() {
           ONLINE
         </div>
       </div>
-    </motion.header>
+    </header>
   );
 }

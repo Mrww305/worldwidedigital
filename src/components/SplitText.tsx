@@ -1,12 +1,6 @@
 "use client";
 
 import { createElement, useEffect, useRef, useState, type ElementType } from "react";
-import {
-  motion,
-  useInView,
-  useReducedMotion,
-  type Variants,
-} from "framer-motion";
 
 /* ------------------------------------------------------------------ */
 /*  SplitText — cinematic blur-to-focus split-text reveal              */
@@ -27,8 +21,6 @@ export type SplitTextProps = {
   trigger?: "mount" | "view";
 };
 
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
 export default function SplitText(props: SplitTextProps) {
   const text = props.text;
   const as = props.as ?? "span";
@@ -40,52 +32,57 @@ export default function SplitText(props: SplitTextProps) {
   const y = props.y ?? "0.42em";
   const blur = props.blur ?? "0.32em";
   const trigger = props.trigger ?? "view";
-  const reduce = useReducedMotion();
+  
+  const containerRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(trigger === "mount");
 
-  const units =
-    mode === "words" ? text.split(" ") : Array.from(text);
+  const units = mode === "words" ? text.split(" ") : Array.from(text);
 
-  if (reduce) {
-    return createElement(as, { className }, text);
-  }
+  useEffect(() => {
+    if (trigger !== "view" || !containerRef.current) return;
 
-  const container: Variants = {
-    hidden: {},
-    show: { transition: { staggerChildren: stagger, delayChildren: delay } },
-  };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "-8% 0px" }
+    );
 
-  const item: Variants = {
-    hidden: { opacity: 0, y, filter: `blur(${blur})` },
-    show: {
-      opacity: 1,
-      y: "0em",
-      filter: "blur(0em)",
-      transition: { duration, ease: EASE },
-    },
-  };
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [trigger]);
 
-  const MotionTag = motion.create(as as string) as unknown as typeof motion.span;
+  const Tag = as as ElementType;
 
   return (
-    <MotionTag
+    <Tag
+      ref={containerRef}
       className={className}
-      initial="hidden"
-      {...(trigger === "view"
-        ? { whileInView: "show", viewport: { once: true, margin: "-8% 0px" } }
-        : { animate: "show" })}
-      variants={container}
+      style={{
+        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+      }}
     >
       {units.map((unit, i) => (
-        <motion.span
+        <span
           key={`${unit}-${i}`}
-          variants={item}
           aria-hidden="true"
-          style={{ display: "inline-block", whiteSpace: "pre" }}
+          style={{
+            display: "inline-block",
+            whiteSpace: "pre",
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? "translateY(0)" : `translateY(${y})`,
+            filter: isVisible ? "blur(0em)" : `blur(${blur})`,
+            transition: `opacity ${duration}s cubic-bezier(0.22, 1, 0.36, 1), transform ${duration}s cubic-bezier(0.22, 1, 0.36, 1), filter ${duration}s cubic-bezier(0.22, 1, 0.36, 1)`,
+            transitionDelay: `${delay + i * stagger}s`,
+          }}
         >
           {unit === " " ? "\u00A0" : unit}
-        </motion.span>
+        </span>
       ))}
-    </MotionTag>
+    </Tag>
   );
 }
 
@@ -105,18 +102,32 @@ export function ScrambleText(props: {
   const className = props.className;
   const speed = props.speed ?? 34;
   const delay = props.delay ?? 200;
-  const reduce = useReducedMotion();
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px 0px" });
-  const outputState = useState<string>(reduce ? text : "\u00A0");
+  const [isVisible, setIsVisible] = useState(false);
+  const outputState = useState<string>("\u00A0");
   const output = outputState[0];
   const setOutput = outputState[1];
 
   useEffect(() => {
-    if (reduce || !inView) {
-      if (reduce) setOutput(text);
-      return;
-    }
+    if (!ref.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "-40px 0px" }
+    );
+
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
     let interval: ReturnType<typeof setInterval> | undefined;
     let frame = 0;
     const timeout = setTimeout(() => {
@@ -142,7 +153,7 @@ export function ScrambleText(props: {
       clearTimeout(timeout);
       if (interval) clearInterval(interval);
     };
-  }, [text, speed, delay, reduce, inView]);
+  }, [text, speed, delay, isVisible, setOutput]);
 
   return (
     <span ref={ref} className={className}>

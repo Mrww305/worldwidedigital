@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import SplitText, { ScrambleText } from "./SplitText";
 import { IDENTITY, LINKS } from "../data/cv";
 
@@ -19,11 +18,9 @@ export default function Hero() {
       className="vh-screen pointer-events-none relative flex flex-col justify-between overflow-hidden px-5 pb-6 pt-24 md:px-10 md:pb-8"
     >
       {/* ---------------- top telemetry strip ---------------- */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.6 }}
-        className="flex items-center justify-between font-mono text-[10px] tracking-[0.26em] text-faint"
+      <div
+        className="flex items-center justify-between font-mono text-[10px] tracking-[0.26em] text-faint animate-fade-in"
+        style={{ animationDelay: "0.1s" }}
       >
         <span>
           {IDENTITY.coords}
@@ -33,22 +30,20 @@ export default function Hero() {
           <span className="led-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
           SYSTEM NOMINAL — 15Y UPTIME
         </span>
-      </motion.div>
+      </div>
 
       {/* ---------------- central identity block ---------------- */}
       <div className="grid flex-1 content-end gap-8 pb-6 lg:grid-cols-[1fr_auto] lg:items-end">
         <div>
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] tracking-[0.3em] text-dim"
+          <p
+            className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] tracking-[0.3em] text-dim animate-fade-in-up"
+            style={{ animationDelay: "0.2s" }}
           >
             <span className="text-signal">◉</span>
             OPERATOR HANDLE //
             <ScrambleText text="mrww305" className="text-ink" delay={300} />
             <span className="text-faint">— TRANSMISSION v4.0</span>
-          </motion.p>
+          </p>
 
           {/* LCP element - render immediately without animation */}
           <h1 className="font-display font-bold leading-[0.86] tracking-[-0.045em] text-ink" style={{ minHeight: '2.4em' }}>
@@ -62,28 +57,16 @@ export default function Hero() {
           </p>
 
           {/* role manifest */}
-          <motion.ul
-            initial="hidden"
-            animate="show"
-            variants={{
-              hidden: {},
-              show: { transition: { staggerChildren: 0.05, delayChildren: 0.4 } },
-            }}
-            className="mt-7 flex max-w-3xl flex-col gap-1.5"
-          >
-            {IDENTITY.roles.map((r) => (
-              <motion.li
+          <ul className="mt-7 flex max-w-3xl flex-col gap-1.5">
+            {IDENTITY.roles.map((r, i) => (
+              <li
                 key={r.n}
-                variants={{
-                  hidden: { opacity: 0, x: -18, filter: "blur(6px)" },
-                  show: {
-                    opacity: 1,
-                    x: 0,
-                    filter: "blur(0px)",
-                    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-                  },
+                className="flex items-baseline gap-3 animate-fade-in-up"
+                style={{
+                  animationDelay: `${0.4 + i * 0.05}s`,
+                  opacity: 0,
+                  animationFillMode: 'forwards',
                 }}
-                className="flex items-baseline gap-3"
               >
                 <span className="font-mono text-[10px] tracking-[0.2em] text-signal/80">{r.n}</span>
                 {r.serif ? (
@@ -95,17 +78,15 @@ export default function Hero() {
                     {r.label}
                   </span>
                 )}
-              </motion.li>
+              </li>
             ))}
-          </motion.ul>
+          </ul>
         </div>
 
         {/* right telemetry column */}
-        <motion.dl
-          initial={{ opacity: 0, x: 24 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="hidden w-44 flex-col gap-4 border-l border-line pl-5 lg:flex"
+        <dl
+          className="hidden w-44 flex-col gap-4 border-l border-line pl-5 lg:flex animate-fade-in"
+          style={{ animationDelay: "0.3s" }}
         >
           {READOUTS.map((r) => (
             <div key={r.k}>
@@ -115,15 +96,13 @@ export default function Hero() {
               </dd>
             </div>
           ))}
-        </motion.dl>
+        </dl>
       </div>
 
       {/* ---------------- bottom strip ---------------- */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.6 }}
-        className="flex items-end justify-between gap-6"
+      <div
+        className="flex items-end justify-between gap-6 animate-fade-in"
+        style={{ animationDelay: "0.5s" }}
       >
         <div className="flex items-center gap-4">
           <span className="relative block h-10 w-px overflow-hidden bg-line">
@@ -154,7 +133,7 @@ export default function Hero() {
             {IDENTITY.email}
           </a>
         </div>
-      </motion.div>
+      </div>
     </header>
   );
 }

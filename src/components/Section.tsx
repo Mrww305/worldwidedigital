@@ -1,9 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+import { useEffect, useRef, useState } from "react";
 
 /* Line-mask reveal used for every section heading. */
 export function SectionHeading(props: {
@@ -16,36 +14,52 @@ export function SectionHeading(props: {
   const title = props.title;
   const note = props.note;
   const id = props.id;
-  const reduce = useReducedMotion();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="mb-12 md:mb-16">
-      <motion.div
-        initial={reduce ? false : { opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="mb-3 flex items-center gap-4 font-mono text-[10px] tracking-[0.34em] text-signal"
+    <div ref={sectionRef} className="mb-12 md:mb-16">
+      <div
+        className={`mb-3 flex items-center gap-4 font-mono text-[10px] tracking-[0.34em] text-signal transition-opacity duration-800 ${
+          isVisible ? "opacity-100" : "opacity-0"
+        }`}
       >
         <span>[ {index} ]</span>
-        <motion.span
-          initial={reduce ? false : { scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.1, ease: EASE, delay: 0.15 }}
-          className="h-px w-16 origin-left bg-line"
+        <span
+          className={`h-px w-16 origin-left bg-line transition-transform duration-1100 ${
+            isVisible ? "scale-x-100" : "scale-x-0"
+          }`}
+          style={{ transitionDelay: "0.15s" }}
         />
         {note ? <span className="text-faint">{note}</span> : null}
-      </motion.div>
+      </div>
       <h2 id={id} className="overflow-hidden">
-        <motion.span
-          initial={reduce ? false : { y: "112%" }}
-          whileInView={{ y: "0%" }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 1, ease: EASE }}
-          className="block font-display text-[clamp(2.2rem,6vw,4.6rem)] font-bold uppercase leading-[0.95] tracking-[-0.03em] text-ink"
+        <span
+          className={`block font-display text-[clamp(2.2rem,6vw,4.6rem)] font-bold uppercase leading-[0.95] tracking-[-0.03em] text-ink transition-transform duration-1000 ${
+            isVisible ? "translate-y-0" : "translate-y-full"
+          }`}
+          style={{ transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)" }}
         >
           {title}
-        </motion.span>
+        </span>
       </h2>
     </div>
   );
@@ -62,16 +76,40 @@ export function Reveal(props: {
   const delay = props.delay ?? 0;
   const y = props.y ?? 26;
   const className = props.className;
-  const reduce = useReducedMotion();
+  const revealRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "-8% 0px" }
+    );
+
+    if (revealRef.current) {
+      observer.observe(revealRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <motion.div
-      className={className}
-      initial={reduce ? false : { opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-8% 0px" }}
-      transition={{ duration: 0.9, ease: EASE, delay }}
+    <div
+      ref={revealRef}
+      className={`transition-all duration-900 ${className ?? ""} ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0"
+      }`}
+      style={{
+        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+        transitionDelay: `${delay}s`,
+        transform: isVisible ? "translateY(0)" : `translateY(${y}px)`,
+      }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

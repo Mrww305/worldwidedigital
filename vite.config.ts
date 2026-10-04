@@ -6,18 +6,13 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   build: {
-    target: 'esnext',
+    target: 'es2022',
     rollupOptions: {
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom'],
-          'vendor-motion': ['framer-motion'],
-          'vendor-three': ['three', '@react-three/fiber', '@react-three/drei'],
         },
       },
     },
-  },
-  esbuild: {
-    target: 'esnext',
   },
 })
