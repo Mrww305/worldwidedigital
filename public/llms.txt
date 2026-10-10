@@ -1,0 +1,61 @@
+# Sajid Afridi (mrww305) — Deep Space CV
+
+> AI Governance Architect, MLOps & Zero Trust Architect, Industrial Technologist, and National AI Policy Strategist with 15+ years spanning the 1st through 4th Industrial Revolutions and 6+ years specializing in Data Science, Artificial Intelligence, and Physical AI.
+
+## Identity
+
+- **Name:** Sajid Afridi
+- **Handle:** mrww305
+- **Email:** ceo@megnitoo.com
+- **Phone:** +92 311 9999978
+- **Discord:** thefabricman
+- **Location:** Lahore / Khyber Pakhtunkhwa, Pakistan — Global Remote
+- **Coordinates:** 31.5204° N, 74.3587° E
+
+## Current Roles
+
+1. **Founder & CEO** — MegniToo (2023–Present) — AI/ML/DevOps incubator
+2. **Founder & Director** — UMT AI Tech Incubator (2022–Present)
+3. **Chief Technology Officer** — Pakistan Red Team (2021–Present)
+4. **AI Policy Consultant** — National Information Technology Board (NITB) Pakistan (2023–Present)
+5. **COO & Managing Director/CTO** — Reshmatex & Textile Group (2009–Present)
+
+## Core Competencies
+
+- **AI & Data Science:** End-to-End ML Pipelines, RAG, AI Agents (Langflow, n8n), NLP, 3D Computer Vision, Generative AI, Reinforcement Learning, Federated Learning, Homomorphic Encryption
+- **MLOps & Cloud:** Docker, Kubernetes (CKA), CI/CD, DevSecOps, Edge/Fog/Serverless, Microservices, GPU/TPU/DPU Orchestration
+- **Physical AI & Industrial Automation:** SCADA, PLC Programming, HMI Design, OT/IT Integration, Arduino, ESP8266/ESP32, Raspberry Pi, Sensor Fusion, Anti-Drone Hardware
+- **Cybersecurity & Zero Trust:** ZTNA, PAM, DAM, SDP, OSINT, Red Teaming, Penetration Testing, AI Security (Prompt Injection Defense)
+- **Programming:** Python, Java, C++, JavaScript, R, MATLAB, SQL, TensorFlow, PyTorch, Keras, Scikit-learn, LangChain
+
+## Education & Certifications
+
+- **B.S.** — Siena College, New York, USA (2017–2018)
+- **O & A Levels** — The City School, Pakistan
+- **Certified Kubernetes Administrator (CKA)** — The Linux Foundation
+- **Certified TensorFlow Developer** — Google
+- **Certified PyTorch Developer** — Meta
+
+## Social & Professional Links
+
+- LinkedIn: https://www.linkedin.com/in/mr305afridi
+- GitHub: https://github.com/Mrww305
+- Kaggle: https://www.kaggle.com/mrww305
+- MegniToo: https://megnitoo.com
+- Pakistan Red Team: https://pakistanredteam.com
+- AIPakistani: https://aipakistani.com
+
+## Open To
+
+- **Executive / Lead Engineering:** VP of AI, Chief AI Officer, Lead MLOps Engineer, Director of AI Infrastructure
+- **Technical Consultation:** Secure multimodal AI deployments, Zero Trust AI architecture, National & corporate AI policy formulation
+- **Academic & Mentorship:** Data science research, AI security, Democratizing tech education for underrepresented demographics
+
+## Key Stats
+
+- 15+ years across Industry 1.0 → 4.0
+- 6+ years deep in AI & Data Science
+- PKR 300M annual revenue — Asia Foam
+- 50% batch error reduction (12% → 6%) via SCADA
+- 8 years international trade across 5 markets
+- 3 national platforms founded/co-founded

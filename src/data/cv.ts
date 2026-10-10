@@ -55,7 +55,6 @@ export const LINKS: LinkEntry[] = [
   { id: "mt", label: "MegniToo", handle: "megnitoo.com", url: "https://megnitoo.com" },
   { id: "prt", label: "Pakistan Red Team", handle: "pakistanredteam.com", url: "https://pakistanredteam.com" },
   { id: "aip", label: "AIPakistani", handle: "aipakistani.com", url: "https://aipakistani.com" },
-  { id: "aim", label: "AIMarhaba", handle: "aimarhaba.com", url: "https://aimarhaba.com" },
 ];
 
 export const MARQUEE_KEYWORDS = [
