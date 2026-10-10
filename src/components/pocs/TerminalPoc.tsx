@@ -163,9 +163,6 @@ export default function TerminalPoc() {
       <div
         className="flex h-full cursor-text flex-col"
         onClick={() => inputRef.current?.focus()}
-        role="button"
-        tabIndex={-1}
-        aria-label="Terminal focus area"
       >
         <div ref={scrollRef} className="h-[calc(100%-96px)] overflow-y-auto px-4 py-3 font-mono text-[11.5px] leading-[1.75]">
           {lines.map((l, i) => (

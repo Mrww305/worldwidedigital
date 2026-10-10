@@ -13,6 +13,7 @@ const NAV_LINKS = [
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
@@ -24,6 +25,15 @@ export default function Nav() {
     const onScroll = () => setScrolled(window.scrollY > 32);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close mobile menu on resize to desktop
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 768) setMenuOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   return (
@@ -72,17 +82,73 @@ export default function Nav() {
           ))}
         </nav>
 
-        <a
-          href="#uplink"
-          className="pointer-events-auto flex items-center gap-2 border border-line px-3 py-1.5 font-mono text-[10px] tracking-[0.24em] text-dim transition-all hover:border-signal/60 hover:text-signal md:hidden"
-        >
-          <span className="led-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
-          UPLINK
-        </a>
-        <div className="pointer-events-none hidden items-center gap-2 font-mono text-[10px] tracking-[0.24em] text-faint md:flex">
-          <span className="led-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
-          ONLINE
+        <div className="flex items-center gap-3">
+          <a
+            href="#uplink"
+            className="pointer-events-auto hidden items-center gap-2 border border-line px-3 py-1.5 font-mono text-[10px] tracking-[0.24em] text-dim transition-all hover:border-signal/60 hover:text-signal md:flex"
+          >
+            <span className="led-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
+            UPLINK
+          </a>
+
+          {/* Mobile menu toggle */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            className="pointer-events-auto flex h-9 w-9 flex-col items-center justify-center gap-1.5 border border-line md:hidden"
+          >
+            <span
+              className={`block h-px w-4 bg-ink transition-all duration-300 ${
+                menuOpen ? "translate-y-[3.5px] rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`block h-px w-4 bg-ink transition-all duration-300 ${
+                menuOpen ? "-translate-y-[3px] -rotate-45" : ""
+              }`}
+            />
+          </button>
+
+          <div className="pointer-events-none hidden items-center gap-2 font-mono text-[10px] tracking-[0.24em] text-faint md:flex">
+            <span className="led-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
+            ONLINE
+          </div>
         </div>
+      </div>
+
+      {/* Mobile menu panel */}
+      <div
+        id="mobile-menu"
+        className={`overflow-hidden border-b border-line bg-black/95 backdrop-blur-md transition-all duration-500 md:hidden ${
+          menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <nav className="flex flex-col px-5 py-4" aria-label="Mobile">
+          {NAV_LINKS.map((l) => (
+            <a
+              key={l.id}
+              href={`#${l.id}`}
+              onClick={() => setMenuOpen(false)}
+              className="group flex items-baseline gap-3 border-b border-line/50 py-3.5 font-mono text-[11px] tracking-[0.28em] text-dim transition-colors last:border-b-0 hover:text-ink"
+            >
+              <span className="text-signal/70 transition-colors group-hover:text-signal">
+                {l.n}
+              </span>
+              {l.label}
+            </a>
+          ))}
+          <a
+            href="#uplink"
+            onClick={() => setMenuOpen(false)}
+            className="mt-2 flex items-center gap-2 py-3.5 font-mono text-[11px] tracking-[0.28em] text-signal"
+          >
+            <span className="led-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
+            UPLINK
+          </a>
+        </nav>
       </div>
     </motion.header>
   );

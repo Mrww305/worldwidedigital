@@ -75,6 +75,9 @@ Crawl-delay: 1
 # Sitemap location
 Sitemap: https://sajidafridi.com/sitemap.xml
 
+# LLM / AI assistant index
+# https://sajidafridi.com/llms.txt
+
 # Additional metadata for AI crawlers
 # This site contains structured data (JSON-LD) for:
 # - Person schema (Sajid Afridi / Mrww305)

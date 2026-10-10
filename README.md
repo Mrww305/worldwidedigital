@@ -24,7 +24,42 @@ npm run build      # static output in dist/
 npm run preview    # serve the production build locally
 ```
 
-## Deploy: GitHub → Vercel
+## Deploy: GitHub → Hostinger (automatic) ⭐
+
+Deployment runs on **Hostinger's native Git auto-deployment + Node.js build** — no CI
+workflow, no secrets, no manual uploads.
+
+**How it works:** Hostinger is connected to this GitHub repo (installation under
+*Mrww305*) and, on every push to `main`, it:
+
+1. Pulls the `main` branch
+2. Runs the Node.js build (`app_type: vite`, `output_directory: dist`, Node 22, `npm`)
+3. Publishes `dist/` to the website document root
+
+So the whole flow is: **push/merge to `main` → Hostinger builds → live.**
+
+**Current configuration** (hPanel → Websites → *sajidafridi.com* → Advanced → Git):
+
+| Setting | Value |
+| ------- | ----- |
+| Repository | `Mrww305/worldwidedigital` |
+| Branch | `main` |
+| Build type | Node.js / Vite |
+| Output directory | `dist` |
+| Node version | 22 |
+
+**You never need to build or upload manually.** Just commit and push/merge to `main`.
+
+### Notes
+
+- `.htaccess` (security headers, `www`→apex 301, compression, caching), `llms.txt`,
+  `404.html`, favicons and `og-image.png` live in `public/` and are copied into `dist/`,
+  so they deploy automatically.
+- Builds can be inspected in hPanel (Git / Node.js build logs). A build takes ~1–2 min.
+
+---
+
+## Deploy: GitHub → Vercel (alternative)
 
 1. Push this repo to GitHub (`git add -A && git commit -m "init" && git push`).
 2. On Vercel: **Add New… → Project → Import** the repository.
@@ -76,7 +111,8 @@ Replace the placeholder domain (`sajidafridi.com`) in `public/robots.txt` and `p
 ```
 vercel.json              # deployment contract (framework, build, output, rewrites)
 index.html               # SEO: JSON-LD Person schema, OG/Twitter, pre-paint --vh
-public/                  # robots.txt · sitemap.xml · favicon.svg
+public/                  # robots.txt · sitemap.xml · llms.txt · 404.html · .htaccess
+                         # og-image.png · favicon.svg/ico · apple-touch-icon.png
 src/
   App.tsx                # composition root (MotionConfig + reduced-motion)
   hooks/useDynamicVH.ts  # true-viewport CSS variable
