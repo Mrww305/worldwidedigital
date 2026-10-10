@@ -1,0 +1,69 @@
+# Automatic build + deploy to Hostinger
+#
+# Triggers on every push to `main` (and can be run manually from the Actions tab).
+# Builds the Vite site, then uploads `dist/` to Hostinger over FTPS.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   FTP_SERVER      - Hostinger FTP host, e.g. ftp.sajidafridi.com  (or the IP from hPanel)
+#   FTP_USERNAME    - Hostinger FTP username (e.g. u123456789)
+#   FTP_PASSWORD    - Hostinger FTP password
+#   FTP_SERVER_DIR  - Remote target directory, e.g. /public_html/  (include trailing slash)
+#
+# NOTE: the deploy is incremental (only changed files upload). It will NOT delete
+# files already on the server, so old hashed assets may accumulate harmlessly.
+
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          test -f dist/index.html
+          test -f dist/.htaccess
+          test -f dist/llms.txt
+          test -f dist/og-image.png
+          echo "Build artifacts verified."
+
+      - name: Deploy to Hostinger (FTPS)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_SERVER_DIR || '/public_html/' }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**

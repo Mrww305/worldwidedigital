@@ -24,7 +24,48 @@ npm run build      # static output in dist/
 npm run preview    # serve the production build locally
 ```
 
-## Deploy: GitHub → Vercel
+## Deploy: GitHub → Hostinger (automatic) ⭐
+
+The repo ships with `.github/workflows/deploy-hostinger.yml`. On every push to `main` it:
+
+1. `npm ci` → `npm run typecheck` → `npm run build`
+2. Uploads `dist/` to Hostinger over **FTPS**.
+
+### One-time setup
+
+1. **Hostinger hPanel → Files → FTP Accounts** (or *Hosting → FTP*). Note the **FTP host**
+   (e.g. `ftp.sajidafridi.com` or the server IP), the **FTP username** (`u…`), set an
+   **FTP password**, and confirm the document root (usually `/public_html/`).
+2. **GitHub → repo Settings → Secrets and variables → Actions → New repository secret**, add:
+
+   | Secret | Example | Notes |
+   | ------ | ------- | ----- |
+   | `FTP_SERVER` | `ftp.sajidafridi.com` | Hostinger FTP host |
+   | `FTP_USERNAME` | `u123456789` | FTP user |
+   | `FTP_PASSWORD` | `••••••` | FTP password |
+   | `FTP_SERVER_DIR` | `/public_html/` | Trailing slash; defaults to `/public_html/` if omitted |
+
+3. Push to `main`, or run it manually: **Actions → Deploy to Hostinger → Run workflow**.
+
+### Notes
+
+- `.htaccess` (security headers, `www`→apex 301, compression, caching) lives in `public/`,
+  is copied into `dist/`, and therefore deploys automatically.
+- The deploy is **incremental** — it uploads only changed files and does **not** delete
+  existing ones (old hashed assets may accumulate harmlessly). For a clean slate set
+  `dangerous-clean-slate: true` in the workflow (⚠ wipes the target directory first).
+- If the account only supports plain FTP, change `protocol: ftps` → `protocol: ftp`.
+- Prefer SFTP/SSH? Replace the last step with `wlixcc/SFTP-Deploy-Action` using the same secrets.
+
+### Alternative: Hostinger native Git deploy
+
+hPanel → **Advanced → GIT** can pull this repo directly and run
+`npm install && npm run build`, publishing `dist/`. No GitHub secrets needed, but the build
+then runs on Hostinger's Node version rather than GitHub Actions.
+
+---
+
+## Deploy: GitHub → Vercel (alternative)
 
 1. Push this repo to GitHub (`git add -A && git commit -m "init" && git push`).
 2. On Vercel: **Add New… → Project → Import** the repository.
@@ -76,7 +117,8 @@ Replace the placeholder domain (`sajidafridi.com`) in `public/robots.txt` and `p
 ```
 vercel.json              # deployment contract (framework, build, output, rewrites)
 index.html               # SEO: JSON-LD Person schema, OG/Twitter, pre-paint --vh
-public/                  # robots.txt · sitemap.xml · favicon.svg
+public/                  # robots.txt · sitemap.xml · llms.txt · 404.html · .htaccess
+                         # og-image.png · favicon.svg/ico · apple-touch-icon.png
 src/
   App.tsx                # composition root (MotionConfig + reduced-motion)
   hooks/useDynamicVH.ts  # true-viewport CSS variable
