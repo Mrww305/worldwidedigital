@@ -26,42 +26,36 @@ npm run preview    # serve the production build locally
 
 ## Deploy: GitHub → Hostinger (automatic) ⭐
 
-The repo ships with `.github/workflows/deploy-hostinger.yml`. On every push to `main` it:
+Deployment runs on **Hostinger's native Git auto-deployment + Node.js build** — no CI
+workflow, no secrets, no manual uploads.
 
-1. `npm ci` → `npm run typecheck` → `npm run build`
-2. Uploads `dist/` to Hostinger over **FTPS**.
+**How it works:** Hostinger is connected to this GitHub repo (installation under
+*Mrww305*) and, on every push to `main`, it:
 
-### One-time setup
+1. Pulls the `main` branch
+2. Runs the Node.js build (`app_type: vite`, `output_directory: dist`, Node 22, `npm`)
+3. Publishes `dist/` to the website document root
 
-1. **Hostinger hPanel → Files → FTP Accounts** (or *Hosting → FTP*). Note the **FTP host**
-   (e.g. `ftp.sajidafridi.com` or the server IP), the **FTP username** (`u…`), set an
-   **FTP password**, and confirm the document root (usually `/public_html/`).
-2. **GitHub → repo Settings → Secrets and variables → Actions → New repository secret**, add:
+So the whole flow is: **push/merge to `main` → Hostinger builds → live.**
 
-   | Secret | Example | Notes |
-   | ------ | ------- | ----- |
-   | `FTP_SERVER` | `ftp.sajidafridi.com` | Hostinger FTP host |
-   | `FTP_USERNAME` | `u123456789` | FTP user |
-   | `FTP_PASSWORD` | `••••••` | FTP password |
-   | `FTP_SERVER_DIR` | `/public_html/` | Trailing slash; defaults to `/public_html/` if omitted |
+**Current configuration** (hPanel → Websites → *sajidafridi.com* → Advanced → Git):
 
-3. Push to `main`, or run it manually: **Actions → Deploy to Hostinger → Run workflow**.
+| Setting | Value |
+| ------- | ----- |
+| Repository | `Mrww305/worldwidedigital` |
+| Branch | `main` |
+| Build type | Node.js / Vite |
+| Output directory | `dist` |
+| Node version | 22 |
+
+**You never need to build or upload manually.** Just commit and push/merge to `main`.
 
 ### Notes
 
-- `.htaccess` (security headers, `www`→apex 301, compression, caching) lives in `public/`,
-  is copied into `dist/`, and therefore deploys automatically.
-- The deploy is **incremental** — it uploads only changed files and does **not** delete
-  existing ones (old hashed assets may accumulate harmlessly). For a clean slate set
-  `dangerous-clean-slate: true` in the workflow (⚠ wipes the target directory first).
-- If the account only supports plain FTP, change `protocol: ftps` → `protocol: ftp`.
-- Prefer SFTP/SSH? Replace the last step with `wlixcc/SFTP-Deploy-Action` using the same secrets.
-
-### Alternative: Hostinger native Git deploy
-
-hPanel → **Advanced → GIT** can pull this repo directly and run
-`npm install && npm run build`, publishing `dist/`. No GitHub secrets needed, but the build
-then runs on Hostinger's Node version rather than GitHub Actions.
+- `.htaccess` (security headers, `www`→apex 301, compression, caching), `llms.txt`,
+  `404.html`, favicons and `og-image.png` live in `public/` and are copied into `dist/`,
+  so they deploy automatically.
+- Builds can be inspected in hPanel (Git / Node.js build logs). A build takes ~1–2 min.
 
 ---
 
