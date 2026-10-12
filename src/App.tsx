@@ -1,6 +1,6 @@
 "use client";
 
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { MotionConfig } from "framer-motion";
 import DynamicVHProvider from "./components/DynamicVHProvider";
 
@@ -17,14 +17,33 @@ import Ecosystem from "./components/Ecosystem";
 import Contact from "./components/Contact";
 
 export default function App() {
+  // Mount the heavy three.js background only after the main thread is idle,
+  // so its ~824 kB chunk never competes with first paint / LCP / TBT.
+  const [showBackground, setShowBackground] = useState(false);
+
+  useEffect(() => {
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(() => setShowBackground(true), { timeout: 2000 });
+      return () => w.cancelIdleCallback?.(id);
+    }
+    const t = window.setTimeout(() => setShowBackground(true), 900);
+    return () => window.clearTimeout(t);
+  }, []);
+
   return (
     <MotionConfig reducedMotion="user">
       <DynamicVHProvider>
         <div className="relative min-h-screen bg-void font-body text-ink">
-          {/* z-0 : interactive WebGL deep-space field */}
-          <Suspense fallback={null}>
-            <WebGLBackground />
-          </Suspense>
+          {/* z-0 : interactive WebGL deep-space field (deferred to idle) */}
+          {showBackground && (
+            <Suspense fallback={null}>
+              <WebGLBackground />
+            </Suspense>
+          )}
 
           {/* z-1 : cinematic vignette above canvas, below content */}
           <div className="vignette-overlay" aria-hidden="true" />

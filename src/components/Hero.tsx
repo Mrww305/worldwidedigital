@@ -55,16 +55,16 @@ export default function Hero() {
               text="SAJID"
               as="span"
               trigger="mount"
-              delay={0.25}
-              stagger={0.07}
+              delay={0.12}
+              stagger={0.06}
               className="block text-[clamp(3.6rem,15vw,11.5rem)]"
             />
             <SplitText
               text="AFRIDI"
               as="span"
               trigger="mount"
-              delay={0.62}
-              stagger={0.07}
+              delay={0.3}
+              stagger={0.06}
               className="block text-[clamp(3.6rem,15vw,11.5rem)]"
             />
           </h1>
@@ -80,7 +80,7 @@ export default function Hero() {
             animate="show"
             variants={{
               hidden: {},
-              show: { transition: { staggerChildren: 0.09, delayChildren: 1.15 } },
+              show: { transition: { staggerChildren: 0.05, delayChildren: 0.35 } },
             }}
             className="mt-7 flex max-w-3xl flex-col gap-1.5"
           >
