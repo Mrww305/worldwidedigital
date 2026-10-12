@@ -1,0 +1,118 @@
+# Sajid Afridi (mrww305) — Complete Profile (Full Text)
+
+> AI Governance Architect, MLOps & Zero Trust Architect, Industrial Technologist, and National AI Policy Strategist with 15+ years spanning the 1st through 4th Industrial Revolutions and 6+ years specializing in Data Science, Artificial Intelligence, and Physical AI.
+
+Machine-readable full-text profile for AI assistants, answer engines, and voice agents.
+Short index: https://sajidafridi.com/llms.txt — Website: https://sajidafridi.com
+
+## Summary
+
+Sajid Afridi (online handle: mrww305) is a Pakistani technology executive and engineer.
+He bridges advanced algorithmic development (Computer Vision, NLP, Generative AI, AI
+Agents) with zero-trust security paradigms and enterprise-grade MLOps practices. His
+dual expertise spans Physical AI (SCADA, IoT, Edge Computing, Anti-Drone Systems) and
+Digital AI (LLMs, RAG, Federated Learning). He advises government institutions (NITB
+Pakistan) and academia (UMT, City School) on AI and digital transformation.
+
+## Identity
+
+- Name: Sajid Afridi
+- Handle: mrww305
+- Discord: thefabricman
+- Location: Lahore / Khyber Pakhtunkhwa, Pakistan — Global Remote
+- Coordinates: 31.5204° N, 74.3587° E
+- Website: https://sajidafridi.com
+
+## Current Roles
+
+1. Founder & CEO — MegniToo (2023–Present) — AI/ML/DevOps incubator
+2. Founder & Director — UMT AI Tech Incubator (2022–Present)
+3. Chief Technology Officer — Pakistan Red Team (2021–Present)
+4. AI Policy Consultant — National Information Technology Board (NITB) Pakistan (2023–Present)
+5. COO & Managing Director/CTO — Reshmatex & Textile Group (2009–Present)
+
+## Core Competencies
+
+### AI & Data Science
+- End-to-End ML Pipelines
+- Retrieval-Augmented Generation (RAG)
+- AI Agents (Langflow, n8n)
+- Natural Language Processing (NLP)
+- 3D Computer Vision
+- Generative AI
+- Reinforcement Learning
+- Federated Learning
+- Homomorphic Encryption
+
+### MLOps & Cloud
+- Docker
+- Kubernetes (CKA)
+- CI/CD Pipelines
+- DevSecOps
+- Edge/Fog/Serverless Computing
+- Microservices Architecture
+- GPU/TPU/DPU Orchestration
+
+### Physical AI & Industrial Automation
+- SCADA Architecture
+- PLC Programming
+- HMI Design
+- OT/IT Integration
+- Arduino, ESP8266/ESP32, Raspberry Pi
+- Sensor Fusion
+- Anti-Drone Hardware
+
+### Cybersecurity & Zero Trust
+- Zero Trust Network Access (ZTNA)
+- Privileged Access Management (PAM)
+- Database Activity Monitoring (DAM)
+- Software-Defined Perimeter (SDP)
+- OSINT
+- Red Teaming & Penetration Testing
+- AI Security (Prompt Injection Defense)
+
+### Programming & Frameworks
+Python, Java, C++, JavaScript, R, MATLAB, SQL, TensorFlow, PyTorch, Keras,
+Scikit-learn, LangChain
+
+## Education & Certifications
+
+- B.S. — Siena College, New York, USA (2017–2018)
+- O & A Levels — The City School, Pakistan
+- Certified Kubernetes Administrator (CKA) — The Linux Foundation
+- Certified TensorFlow Developer — Google
+- Certified PyTorch Developer — Meta
+
+## Key Results
+
+- 15+ years across Industry 1.0 → 4.0
+- 6+ years deep in AI & Data Science
+- PKR 300M annual revenue — Asia Foam
+- 50% batch error reduction (12% → 6%) via SCADA
+- 8 years international trade across 5 markets
+- 3 national platforms founded/co-founded
+
+## Open To
+
+- Executive / Lead Engineering: VP of AI, Chief AI Officer, Lead MLOps Engineer, Director of AI Infrastructure
+- Technical Consultation: Secure multimodal AI deployments, Zero Trust AI architecture, National & corporate AI policy formulation
+- Academic & Mentorship: Data science research, AI security, democratizing tech education for underrepresented demographics
+
+## Links
+
+- Website / CV: https://sajidafridi.com
+- LinkedIn: https://www.linkedin.com/in/mr305afridi
+- GitHub: https://github.com/Mrww305
+- Kaggle: https://www.kaggle.com/mrww305
+- MegniToo: https://megnitoo.com
+- Pakistan Red Team: https://pakistanredteam.com
+- AIPakistani: https://aipakistani.com
+
+## Contact
+
+Email, phone, and further contact details are published in
+https://sajidafridi.com/llms.txt and on https://sajidafridi.com.
+
+## How to Cite
+
+Sajid Afridi (mrww305), "Deep Space CV", https://sajidafridi.com
