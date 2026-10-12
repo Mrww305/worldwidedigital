@@ -8,10 +8,10 @@ import DynamicVHProvider from "./components/DynamicVHProvider";
 const WebGLBackground = lazy(() => import("./components/WebGLBackground"));
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
+import Marquee from "./components/Marquee";
 
 /* Below-the-fold sections are code-split so the initial bundle stays small
    (faster first paint, less blocking time on mobile). */
-const Marquee = lazy(() => import("./components/Marquee"));
 const Profile = lazy(() => import("./components/Profile"));
 const Competencies = lazy(() => import("./components/Competencies"));
 const Experience = lazy(() => import("./components/Experience"));
@@ -78,8 +78,8 @@ export default function App() {
               </p>
             </div>
             <Hero />
+            <Marquee />
             <Suspense fallback={null}>
-              <Marquee />
               <Profile />
               <Competencies />
               <Experience />
