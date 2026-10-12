@@ -17,22 +17,30 @@ import Ecosystem from "./components/Ecosystem";
 import Contact from "./components/Contact";
 
 export default function App() {
-  // Mount the heavy three.js background only after the main thread is idle,
-  // so its ~824 kB chunk never competes with first paint / LCP / TBT.
+  // Load the decorative three.js background (~824 kB) only after the visitor
+  // interacts (scroll / pointer / key / touch), with a delayed fallback for
+  // idle viewers. This keeps its parse + scene setup entirely out of the
+  // first-paint and blocking-time windows, so FCP/LCP/TBT stay clean.
   const [showBackground, setShowBackground] = useState(false);
 
   useEffect(() => {
-    const w = window as Window & {
-      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
-      cancelIdleCallback?: (id: number) => void;
+    if (showBackground) return;
+    const enable = () => setShowBackground(true);
+    const events: (keyof WindowEventMap)[] = [
+      "pointerdown",
+      "pointermove",
+      "scroll",
+      "wheel",
+      "touchstart",
+      "keydown",
+    ];
+    events.forEach((e) => window.addEventListener(e, enable, { passive: true, once: true }));
+    const fallback = window.setTimeout(enable, 7000);
+    return () => {
+      events.forEach((e) => window.removeEventListener(e, enable));
+      window.clearTimeout(fallback);
     };
-    if (typeof w.requestIdleCallback === "function") {
-      const id = w.requestIdleCallback(() => setShowBackground(true), { timeout: 2000 });
-      return () => w.cancelIdleCallback?.(id);
-    }
-    const t = window.setTimeout(() => setShowBackground(true), 900);
-    return () => window.clearTimeout(t);
-  }, []);
+  }, [showBackground]);
 
   return (
     <MotionConfig reducedMotion="user">
