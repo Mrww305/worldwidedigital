@@ -8,13 +8,16 @@ import DynamicVHProvider from "./components/DynamicVHProvider";
 const WebGLBackground = lazy(() => import("./components/WebGLBackground"));
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
-import Marquee from "./components/Marquee";
-import Profile from "./components/Profile";
-import Competencies from "./components/Competencies";
-import Experience from "./components/Experience";
-import PoCLab from "./components/PoCLab";
-import Ecosystem from "./components/Ecosystem";
-import Contact from "./components/Contact";
+
+/* Below-the-fold sections are code-split so the initial bundle stays small
+   (faster first paint, less blocking time on mobile). */
+const Marquee = lazy(() => import("./components/Marquee"));
+const Profile = lazy(() => import("./components/Profile"));
+const Competencies = lazy(() => import("./components/Competencies"));
+const Experience = lazy(() => import("./components/Experience"));
+const PoCLab = lazy(() => import("./components/PoCLab"));
+const Ecosystem = lazy(() => import("./components/Ecosystem"));
+const Contact = lazy(() => import("./components/Contact"));
 
 export default function App() {
   // Load the decorative three.js background (~824 kB) only after the visitor
@@ -75,13 +78,15 @@ export default function App() {
               </p>
             </div>
             <Hero />
-            <Marquee />
-            <Profile />
-            <Competencies />
-            <Experience />
-            <PoCLab />
-            <Ecosystem />
-            <Contact />
+            <Suspense fallback={null}>
+              <Marquee />
+              <Profile />
+              <Competencies />
+              <Experience />
+              <PoCLab />
+              <Ecosystem />
+              <Contact />
+            </Suspense>
           </main>
 
           {/* z-70 : film grain */}

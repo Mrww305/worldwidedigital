@@ -22,7 +22,7 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 1.2 }}
+        transition={{ delay: 0.1, duration: 0.6 }}
         className="flex items-center justify-between font-mono text-[10px] tracking-[0.26em] text-faint"
       >
         <span>
@@ -41,12 +41,12 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55, duration: 0.8 }}
+            transition={{ delay: 0.05, duration: 0.5 }}
             className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] tracking-[0.3em] text-dim"
           >
             <span className="text-signal">◉</span>
             OPERATOR HANDLE //
-            <ScrambleText text="mrww305" className="text-ink" delay={700} />
+            <ScrambleText text="mrww305" className="text-ink" delay={150} />
             <span className="text-faint">— TRANSMISSION v4.0</span>
           </motion.p>
 
@@ -55,16 +55,18 @@ export default function Hero() {
               text="SAJID"
               as="span"
               trigger="mount"
-              delay={0.12}
-              stagger={0.06}
+              delay={0.02}
+              stagger={0.03}
+              duration={0.5}
               className="block text-[clamp(3.6rem,15vw,11.5rem)]"
             />
             <SplitText
               text="AFRIDI"
               as="span"
               trigger="mount"
-              delay={0.3}
-              stagger={0.06}
+              delay={0.06}
+              stagger={0.03}
+              duration={0.5}
               className="block text-[clamp(3.6rem,15vw,11.5rem)]"
             />
           </h1>
@@ -80,7 +82,7 @@ export default function Hero() {
             animate="show"
             variants={{
               hidden: {},
-              show: { transition: { staggerChildren: 0.05, delayChildren: 0.35 } },
+              show: { transition: { staggerChildren: 0.03, delayChildren: 0.05 } },
             }}
             className="mt-7 flex max-w-3xl flex-col gap-1.5"
           >
@@ -93,7 +95,7 @@ export default function Hero() {
                     opacity: 1,
                     x: 0,
                     filter: "blur(0px)",
-                    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+                    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
                   },
                 }}
                 className="flex items-baseline gap-3"
@@ -117,7 +119,7 @@ export default function Hero() {
         <motion.dl
           initial={{ opacity: 0, x: 24 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.0, duration: 1 }}
+          transition={{ delay: 0.15, duration: 0.6 }}
           className="hidden w-44 flex-col gap-4 border-l border-line pl-5 lg:flex"
         >
           {READOUTS.map((r) => (
@@ -135,7 +137,7 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.3, duration: 1 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
         className="flex items-end justify-between gap-6"
       >
         <div className="flex items-center gap-4">
