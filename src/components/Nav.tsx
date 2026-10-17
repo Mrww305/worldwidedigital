@@ -2,19 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
-
-const NAV_LINKS = [
-  { id: "profile", label: "PROFILE", n: "01" },
-  { id: "arsenal", label: "ARSENAL", n: "02" },
-  { id: "missions", label: "MISSIONS", n: "03" },
-  { id: "lab", label: "LIVE LAB", n: "04" },
-  { id: "uplink", label: "UPLINK", n: "05" },
-];
+import { Link, useRouter } from "../router";
+import { NAV_ROUTES, routeHref } from "../seo/routes";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
+  const { path } = useRouter();
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     setScrolled(window.scrollY > 32);
@@ -56,40 +51,52 @@ export default function Nav() {
             : "border-b border-transparent bg-transparent"
         }`}
       >
-        <a
-          href="#top"
+        <Link
+          to="/"
           className="pointer-events-auto font-mono text-[13px] font-medium tracking-[0.22em] text-ink transition-colors hover:text-signal"
         >
           SA<span className="text-signal">—</span>mrww305
+          <span className="sr-only"> — Sajid Afridi, home</span>
           <span className="ml-3 hidden text-[10px] font-light tracking-[0.3em] text-faint sm:inline">
             DEEP SPACE CV
           </span>
-        </a>
+        </Link>
 
         <nav className="pointer-events-auto hidden items-center gap-7 md:flex" aria-label="Primary">
-          {NAV_LINKS.map((l) => (
-            <a
-              key={l.id}
-              href={`#${l.id}`}
-              className="group font-mono text-[10px] tracking-[0.28em] text-dim transition-colors hover:text-ink"
-            >
-              <span className="mr-1.5 text-signal/70 transition-colors group-hover:text-signal">
-                {l.n}
-              </span>
-              {l.label}
-              <span className="block h-px max-w-0 bg-signal transition-all duration-500 group-hover:max-w-full" />
-            </a>
-          ))}
+          {NAV_ROUTES.map((route) => {
+            const active = path === route.path;
+            return (
+              <Link
+                key={route.path}
+                to={routeHref(route)}
+                aria-current={active ? "page" : undefined}
+                className={`group font-mono text-[10px] tracking-[0.28em] transition-colors hover:text-ink ${
+                  active ? "text-ink" : "text-dim"
+                }`}
+              >
+                <span className="mr-1.5 text-signal/70 transition-colors group-hover:text-signal">
+                  {route.navNumber}
+                </span>
+                {route.navLabel}
+                <span
+                  className={`block h-px bg-signal transition-all duration-500 ${
+                    active ? "max-w-full" : "max-w-0 group-hover:max-w-full"
+                  }`}
+                />
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-3">
-          <a
-            href="#uplink"
+          <Link
+            to="/contact/"
+            aria-current={path === "/contact" ? "page" : undefined}
             className="pointer-events-auto hidden items-center gap-2 border border-line px-3 py-1.5 font-mono text-[10px] tracking-[0.24em] text-dim transition-all hover:border-signal/60 hover:text-signal md:flex"
           >
             <span className="led-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
             UPLINK
-          </a>
+          </Link>
 
           {/* Mobile menu toggle */}
           <button
@@ -127,27 +134,28 @@ export default function Nav() {
         }`}
       >
         <nav className="flex flex-col px-5 py-4" aria-label="Mobile">
-          {NAV_LINKS.map((l) => (
-            <a
-              key={l.id}
-              href={`#${l.id}`}
+          {NAV_ROUTES.map((route) => (
+            <Link
+              key={route.path}
+              to={routeHref(route)}
               onClick={() => setMenuOpen(false)}
+              aria-current={path === route.path ? "page" : undefined}
               className="group flex items-baseline gap-3 border-b border-line/50 py-3.5 font-mono text-[11px] tracking-[0.28em] text-dim transition-colors last:border-b-0 hover:text-ink"
             >
               <span className="text-signal/70 transition-colors group-hover:text-signal">
-                {l.n}
+                {route.navNumber}
               </span>
-              {l.label}
-            </a>
+              {route.navLabel}
+            </Link>
           ))}
-          <a
-            href="#uplink"
+          <Link
+            to="/contact/"
             onClick={() => setMenuOpen(false)}
             className="mt-2 flex items-center gap-2 py-3.5 font-mono text-[11px] tracking-[0.28em] text-signal"
           >
             <span className="led-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
             UPLINK
-          </a>
+          </Link>
         </nav>
       </div>
     </motion.header>

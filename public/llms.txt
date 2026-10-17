@@ -36,11 +36,31 @@
 - **Certified TensorFlow Developer** — Google
 - **Certified PyTorch Developer** — Meta
 
+## Pages
+
+- Home: https://sajidafridi.com/
+- About / profile: https://sajidafridi.com/about/
+- Experience: https://sajidafridi.com/experience/
+- Projects: https://sajidafridi.com/projects/
+- Live lab (interactive PoCs): https://sajidafridi.com/lab/
+- Contact: https://sajidafridi.com/contact/
+- Full text: https://sajidafridi.com/llms-full.txt
+
+## Deployments
+
+- Deep Space CV: https://sajidafridi.com
+- Digicard (digital CV): https://digicard-five.vercel.app
+- GRAVITON/01 (physics experiment): https://rtx-five.vercel.app
+- Liquid Light (3D textile materials): https://liquid305light.vercel.app
+- 305 hub (sovereign intelligence): https://305.sajidafridi.com
+- Source: https://github.com/Mrww305/worldwidedigital
+
 ## Social & Professional Links
 
 - LinkedIn: https://www.linkedin.com/in/mr305afridi
 - GitHub: https://github.com/Mrww305
 - Kaggle: https://www.kaggle.com/mrww305
+- X / Twitter: https://x.com/mr305afridi
 - MegniToo: https://megnitoo.com
 - Pakistan Red Team: https://pakistanredteam.com
 - AIPakistani: https://aipakistani.com

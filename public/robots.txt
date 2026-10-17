@@ -73,6 +73,7 @@ Allow: /
 Crawl-delay: 1
 
 # Sitemap location
+Sitemap: https://sajidafridi.com/sitemap-index.xml
 Sitemap: https://sajidafridi.com/sitemap.xml
 
 # LLM / AI assistant index

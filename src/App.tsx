@@ -3,31 +3,57 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { MotionConfig } from "framer-motion";
 import DynamicVHProvider from "./components/DynamicVHProvider";
+import Nav from "./components/Nav";
+import SiteFooter from "./components/SiteFooter";
+import Seo from "./seo/Seo";
+import { RouterProvider, useRouter } from "./router";
+
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import ExperiencePage from "./pages/ExperiencePage";
+import ProjectsPage from "./pages/ProjectsPage";
+import LabPage from "./pages/LabPage";
+import ContactPage from "./pages/ContactPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 /* three.js lives in its own lazy chunk — parsed after first paint. */
 const WebGLBackground = lazy(() => import("./components/WebGLBackground"));
-import Nav from "./components/Nav";
-import Hero from "./components/Hero";
-import Marquee from "./components/Marquee";
 
-/* Below-the-fold sections are code-split so the initial bundle stays small
-   (faster first paint, less blocking time on mobile). */
-const Profile = lazy(() => import("./components/Profile"));
-const Competencies = lazy(() => import("./components/Competencies"));
-const Experience = lazy(() => import("./components/Experience"));
-const PoCLab = lazy(() => import("./components/PoCLab"));
-const Ecosystem = lazy(() => import("./components/Ecosystem"));
-const Contact = lazy(() => import("./components/Contact"));
+function RouteView() {
+  const { path } = useRouter();
 
-export default function App() {
+  switch (path) {
+    case "/":
+      return <HomePage />;
+    case "/about":
+      return <AboutPage />;
+    case "/experience":
+      return <ExperiencePage />;
+    case "/projects":
+      return <ProjectsPage />;
+    case "/lab":
+      return <LabPage />;
+    case "/contact":
+      return <ContactPage />;
+    default:
+      return <NotFoundPage />;
+  }
+}
+
+export default function App({
+  initialPath = "/",
+  prerender = false,
+}: {
+  initialPath?: string;
+  prerender?: boolean;
+}) {
   // Load the decorative three.js background (~824 kB) only after the visitor
   // interacts (scroll / pointer / key / touch), with a delayed fallback for
-  // idle viewers. This keeps its parse + scene setup entirely out of the
-  // first-paint and blocking-time windows, so FCP/LCP/TBT stay clean.
+  // idle viewers. Never during prerender — the crawler must not pay for it.
   const [showBackground, setShowBackground] = useState(false);
 
   useEffect(() => {
-    if (showBackground) return;
+    if (prerender || showBackground) return;
     const enable = () => setShowBackground(true);
     const events: (keyof WindowEventMap)[] = [
       "pointerdown",
@@ -43,56 +69,39 @@ export default function App() {
       events.forEach((e) => window.removeEventListener(e, enable));
       window.clearTimeout(fallback);
     };
-  }, [showBackground]);
+  }, [showBackground, prerender]);
 
   return (
-    <MotionConfig reducedMotion="user">
-      <DynamicVHProvider>
-        <div className="relative min-h-screen bg-void font-body text-ink">
-          {/* z-0 : interactive WebGL deep-space field (deferred to idle) */}
-          {showBackground && (
-            <Suspense fallback={null}>
-              <WebGLBackground />
-            </Suspense>
-          )}
+    <MotionConfig reducedMotion={prerender ? "always" : "user"}>
+      <RouterProvider initialPath={initialPath}>
+        <Seo />
+        <DynamicVHProvider>
+          <div className="relative min-h-screen bg-void font-body text-ink">
+            {/* z-0 : interactive WebGL deep-space field (deferred to idle) */}
+            {!prerender && showBackground && (
+              <Suspense fallback={null}>
+                <WebGLBackground />
+              </Suspense>
+            )}
 
-          {/* z-1 : cinematic vignette above canvas, below content */}
-          <div className="vignette-overlay" aria-hidden="true" />
+            {/* z-1 : cinematic vignette above canvas, below content */}
+            <div className="vignette-overlay" aria-hidden="true" />
 
-          {/* z-50 : navigation + scroll progress */}
-          <Nav />
+            {/* z-50 : navigation + scroll progress */}
+            <Nav />
 
-          {/* z-10 : typography / content layer */}
-          <main className="relative z-10">
-            {/* Semantic summary for LLM crawlers and accessibility */}
-            <div className="sr-only" aria-hidden="false">
-              <p><strong>About Sajid Afridi (mrww305)</strong></p>
-              <p>
-                Pakistani technology executive with 15+ years of cross-industrial experience and 6+ years specialized in Data Science, Artificial Intelligence, and Physical AI. Holds a B.S. from Siena College, New York. Founder of MegniToo (AI/ML/DevOps incubator) and UMT AI Tech Incubator. Chief Technology Officer of Pakistan Red Team. Co-Founder of AIPakistani.com. AI Policy Consultant for National Information Technology Board (NITB) Pakistan.
-              </p>
-              <p>
-                Core competencies include MLOps, Zero Trust Architecture, Retrieval-Augmented Generation (RAG), AI Agents (Langflow/n8n), SCADA systems, IoT, Edge Computing, Generative AI, Large Language Models, Computer Vision, Natural Language Processing, Federated Learning, Kubernetes, DevSecOps, Red Teaming, and National AI Policy formulation.
-              </p>
-              <p>
-                Unique dual-expertise in Physical AI (SCADA, PLC programming, industrial automation, anti-drone systems) and Digital AI (LLMs, RAG, multi-agent systems, prompt engineering), enabling translation of industrial assets into sovereign AI governance frameworks aligned with CPEC opportunities.
-              </p>
-            </div>
-            <Hero />
-            <Marquee />
-            <Suspense fallback={null}>
-              <Profile />
-              <Competencies />
-              <Experience />
-              <PoCLab />
-              <Ecosystem />
-              <Contact />
-            </Suspense>
-          </main>
+            {/* z-10 : typography / content layer */}
+            <main className="relative z-10">
+              <RouteView />
+            </main>
 
-          {/* z-70 : film grain */}
-          <div className="noise-overlay" aria-hidden="true" />
-        </div>
-      </DynamicVHProvider>
+            <SiteFooter />
+
+            {/* z-70 : film grain */}
+            <div className="noise-overlay" aria-hidden="true" />
+          </div>
+        </DynamicVHProvider>
+      </RouterProvider>
     </MotionConfig>
   );
 }

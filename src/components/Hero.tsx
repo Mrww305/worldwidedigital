@@ -50,7 +50,10 @@ export default function Hero() {
             <span className="text-faint">— TRANSMISSION v4.0</span>
           </motion.p>
 
-          <h1 className="font-display font-bold leading-[0.86] tracking-[-0.045em] text-ink">
+          <h1
+            aria-label="Sajid Afridi"
+            className="font-display font-bold leading-[0.86] tracking-[-0.045em] text-ink"
+          >
             <SplitText
               text="SAJID"
               as="span"
@@ -59,7 +62,7 @@ export default function Hero() {
               stagger={0.03}
               duration={0.5}
               className="block text-[clamp(3.6rem,15vw,11.5rem)]"
-            />
+            />{" "}
             <SplitText
               text="AFRIDI"
               as="span"
