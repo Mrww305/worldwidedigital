@@ -118,9 +118,15 @@ Scikit-learn, LangChain
 - Pakistan Red Team: https://pakistanredteam.com
 - AIPakistani: https://aipakistani.com
 - 305 hub: https://305.sajidafridi.com
-- Digicard: https://digicard-five.vercel.app
-- GRAVITON/01: https://rtx-five.vercel.app
-- Liquid Light: https://liquid305light.vercel.app
+- Digicard: https://digicard.sajidafridi.com
+- Advanzo: https://advanzo.sajidafridi.com
+- MegniToo Corporate: https://megnitoocorporate.sajidafridi.com
+- RevFlow: https://gtmsaas.sajidafridi.com
+- RESHMA TEX: https://rtxzone.sajidafridi.com
+- GRAVITON/01: https://rtx.sajidafridi.com
+- Liquid Light: https://liquid.sajidafridi.com
+- Sovereign Intelligence × Physical Automation: https://afridi-305.sajidafridi.com
+- Mirror: https://worldwidedigital.sajidafridi.com
 - Source: https://github.com/Mrww305/worldwidedigital
 
 ## Contact

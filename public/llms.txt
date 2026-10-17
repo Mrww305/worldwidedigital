@@ -49,10 +49,16 @@
 ## Deployments
 
 - Deep Space CV: https://sajidafridi.com
-- Digicard (digital CV): https://digicard-five.vercel.app
-- GRAVITON/01 (physics experiment): https://rtx-five.vercel.app
-- Liquid Light (3D textile materials): https://liquid305light.vercel.app
-- 305 hub (sovereign intelligence): https://305.sajidafridi.com
+- Digicard (digital CV): https://digicard.sajidafridi.com
+- Advanzo (industrial agent OS): https://advanzo.sajidafridi.com
+- MegniToo Corporate (AI agents & RAG): https://megnitoocorporate.sajidafridi.com
+- RevFlow (GTM SaaS): https://gtmsaas.sajidafridi.com
+- RESHMA TEX (industrial zone): https://rtxzone.sajidafridi.com
+- GRAVITON/01 (physics experiment): https://rtx.sajidafridi.com
+- Liquid Light (3D textile materials): https://liquid.sajidafridi.com
+- Sovereign Intelligence × Physical Automation: https://afridi-305.sajidafridi.com
+- 305 hub: https://305.sajidafridi.com
+- Mirror: https://worldwidedigital.sajidafridi.com
 - Source: https://github.com/Mrww305/worldwidedigital
 
 ## Social & Professional Links
