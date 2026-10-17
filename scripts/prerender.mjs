@@ -141,7 +141,7 @@ const buildPage = (route) => {
     );
   }
 
-  const jsonLd = `  <script type="application/ld+json">\n${JSON.stringify(
+  const jsonLd = `  <script id="route-jsonld" type="application/ld+json">\n${JSON.stringify(
     jsonLdFor(route),
     null,
     2
