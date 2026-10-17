@@ -156,10 +156,11 @@ export default function Hero() {
               href={l.url}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${l.id.toUpperCase()} — ${l.label}`}
-              className="border border-line px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-dim transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/70 hover:text-signal"
+              translate="no"
+              className="notranslate border border-line px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-dim transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/70 hover:text-signal"
             >
-              {l.id}
+              {l.id.toUpperCase()}
+              <span className="sr-only"> — {l.label}</span>
             </a>
           ))}
           <a
