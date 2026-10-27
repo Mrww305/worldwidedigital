@@ -1,12 +1,16 @@
 <?php
 /**
- * Contact endpoint for sajidafridi.com
+ * Contact endpoint for sajidafridi.com and the property network
  *
  * POST /api/contact
- *   JSON or form-encoded: name, email, message, website (honeypot)
+ *   JSON or form-encoded: name, email, message, source, website (honeypot)
  *
  * Stores the submission in SQLite outside the document root and emails a
  * notification. No credentials live in this file or in the repository.
+ *
+ * Cross-origin callers (rtxzone, liquid, megnitoocorporate, megnitoo.blog)
+ * are accepted from an explicit allowlist and must send `source` so the
+ * notification says which property the lead came from.
  */
 
 declare(strict_types=1);
@@ -14,18 +18,62 @@ declare(strict_types=1);
 const NOTIFY_TO        = 'ceo@megnitoo.com';
 const NOTIFY_FROM      = 'no-reply@sajidafridi.com';
 const RATE_WINDOW      = 3600; // seconds
-const RATE_PER_IP      = 3;
-const RATE_GLOBAL      = 40;
+const RATE_PER_IP      = 5;
+const RATE_GLOBAL      = 60;
 const MAX_BODY_BYTES   = 16384;
 const MAX_NAME         = 80;
 const MAX_EMAIL        = 200;
 const MAX_MESSAGE      = 5000;
 const MIN_MESSAGE      = 10;
 
+/** Property keys accepted in `source`, mapped to the label used in the email. */
+const SOURCES = [
+    'sajidafridi.com'        => 'sajidafridi.com',
+    'worldwidedigital'       => 'worldwidedigital.sajidafridi.com',
+    'rtxzone'                => 'rtxzone.sajidafridi.com',
+    'liquid'                 => 'liquid.sajidafridi.com',
+    'megnitoocorporate'      => 'megnitoocorporate.sajidafridi.com',
+    'megnitoo.blog'          => 'megnitoo.blog',
+    'megnitoo.com'           => 'megnitoo.com',
+];
+
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: no-referrer');
+
+/* --------------------------------- CORS ---------------------------------- */
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+$originHost = $origin !== '' ? (parse_url($origin, PHP_URL_HOST) ?: '') : '';
+$originScheme = $origin !== '' ? (parse_url($origin, PHP_URL_SCHEME) ?: '') : '';
+$originAllowed = $origin === '' || (
+    $originScheme === 'https' && (
+        $originHost === 'sajidafridi.com'
+        || $originHost === 'megnitoo.com'
+        || $originHost === 'www.megnitoo.com'
+        || $originHost === 'megnitoo.blog'
+        || $originHost === 'www.megnitoo.blog'
+        || str_ends_with($originHost, '.sajidafridi.com')
+    )
+);
+
+if (!$originAllowed) {
+    fail(403, 'origin_not_allowed');
+}
+
+if ($origin !== '') {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Vary: Origin');
+    header('Access-Control-Allow-Methods: POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Accept');
+    header('Access-Control-Max-Age: 86400');
+}
+
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
 
 function respond(int $status, array $payload): never
 {
@@ -71,6 +119,9 @@ $name    = clean_line((string) ($data['name'] ?? ''));
 $email   = clean_line((string) ($data['email'] ?? ''));
 $message = trim((string) ($data['message'] ?? ''));
 $honeypot = trim((string) ($data['website'] ?? ''));
+$sourceKey = clean_line((string) ($data['source'] ?? 'sajidafridi.com'));
+$sourceKey = array_key_exists($sourceKey, SOURCES) ? $sourceKey : 'sajidafridi.com';
+$sourceLabel = SOURCES[$sourceKey];
 
 // Honeypot: a bot filled a field humans never see. Accept silently so the bot
 // does not learn anything, but store nothing and send nothing.
@@ -121,9 +172,16 @@ try {
             message TEXT NOT NULL,
             ip_hash TEXT NOT NULL,
             user_agent TEXT,
+            source TEXT NOT NULL DEFAULT \'sajidafridi.com\',
             delivered INTEGER NOT NULL DEFAULT 0
         )'
     );
+
+    // Existing stores predate the `source` column; add it without losing rows.
+    $columns = array_column($pdo->query('PRAGMA table_info(submissions)')->fetchAll(), 'name');
+    if (!in_array('source', $columns, true)) {
+        $pdo->exec("ALTER TABLE submissions ADD COLUMN source TEXT NOT NULL DEFAULT 'sajidafridi.com'");
+    }
     $pdo->exec(
         'CREATE TABLE IF NOT EXISTS rate (
             ip_hash TEXT NOT NULL,
@@ -151,8 +209,8 @@ try {
 
     $pdo->prepare('INSERT INTO rate (ip_hash, created_at) VALUES (?, ?)')->execute([$ipHash, $now]);
     $pdo->prepare(
-        'INSERT INTO submissions (created_at, name, email, message, ip_hash, user_agent)
-         VALUES (?, ?, ?, ?, ?, ?)'
+        'INSERT INTO submissions (created_at, name, email, message, ip_hash, user_agent, source)
+         VALUES (?, ?, ?, ?, ?, ?, ?)'
     )->execute([
         gmdate('c'),
         $name,
@@ -160,6 +218,7 @@ try {
         $message,
         $ipHash,
         mb_substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 300),
+        $sourceKey,
     ]);
     $id = (int) $pdo->lastInsertId();
 } catch (Throwable $e) {
@@ -169,12 +228,13 @@ try {
 
 /* ------------------------------- notification ------------------------------ */
 
-$subject = 'New contact form submission — sajidafridi.com';
+$subject = 'New contact form submission — ' . $sourceLabel;
 $body = implode("\n", [
-    'New message from the sajidafridi.com contact form.',
+    'New message from the ' . $sourceLabel . ' contact form.',
     '',
     'Name:    ' . $name,
     'Email:   ' . $email,
+    'Site:    ' . $sourceLabel,
     'Sent at: ' . gmdate('Y-m-d H:i:s') . ' UTC',
     'Record:  #' . $id,
     '',

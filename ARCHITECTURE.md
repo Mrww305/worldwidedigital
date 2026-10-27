@@ -107,8 +107,15 @@ root, created with mode 0700. No database password, SMTP credential or API key
 exists in this repository or in any deployed file. Notification mail goes to
 `ceo@megnitoo.com` via `mail()` with the visitor as `Reply-To`.
 
-Controls: POST-only, 16 kB body cap, honeypot field, per-IP limit of 3/hour and
-a global 40/hour ceiling, control-character stripping, `FILTER_VALIDATE_EMAIL`,
+The same endpoint is the network's shared intake. `rtxzone`, `liquid`,
+`megnitoocorporate` and `megnitoo.blog` post to it cross-origin from an
+explicit HTTPS allowlist (`*.sajidafridi.com`, `megnitoo.com`, `megnitoo.blog`)
+and tag each submission with `source`, so the notification subject reads
+*"New contact form submission — liquid.sajidafridi.com"*. Preflight `OPTIONS`
+is answered with a 24-hour max-age; unknown origins get `403`.
+
+Controls: POST-only, 16 kB body cap, honeypot field, per-IP limit of 5/hour and
+a global 60/hour ceiling, control-character stripping, `FILTER_VALIDATE_EMAIL`,
 prepared statements, IP stored only as a salted SHA-256.
 
 **Headers.** HSTS, `nosniff`, `SAMEORIGIN`, Referrer-Policy, Permissions-Policy,
