@@ -10,6 +10,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { pathToFileURL } from "node:url";
 
 const root = process.cwd();
@@ -154,12 +155,15 @@ const buildPage = (route) => {
   return html;
 };
 
+const pages = [];
+
 for (const route of ROUTES) {
   const html = buildPage(route);
   const dir = route.path === "/" ? dist : path.join(dist, route.path);
 
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, "index.html"), html);
+  pages.push(html);
 
   if (route.path !== "/") {
     fs.writeFileSync(path.join(dist, `${route.path}.html`), html);
@@ -167,6 +171,35 @@ for (const route of ROUTES) {
 
   console.log(`prerendered ${route.path} (${(html.length / 1024).toFixed(1)} kB)`);
 }
+
+/* ---- Content-Security-Policy: hash every inline script ----
+ * The site ships no user-generated markup, so the only inline scripts are the
+ * ones we author (the viewport-fix script and the JSON-LD blocks). Hashing
+ * them at build time lets the header drop 'unsafe-inline' without a nonce,
+ * which static hosting cannot generate per request.
+ */
+const inlineScriptRe = /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi;
+const hashes = new Set();
+for (const html of pages) {
+  for (const match of html.matchAll(inlineScriptRe)) {
+    const body = match[1];
+    if (!body) continue;
+    hashes.add(`'sha256-${crypto.createHash("sha256").update(body, "utf8").digest("base64")}'`);
+  }
+}
+if (hashes.size === 0) throw new Error("csp: no inline scripts found - refusing to emit a policy");
+
+const htaccessPath = path.join(dist, ".htaccess");
+let htaccess = fs.readFileSync(htaccessPath, "utf8");
+if (!htaccess.includes("__CSP_SCRIPT_HASHES__")) {
+  throw new Error("csp: public/.htaccess is missing the __CSP_SCRIPT_HASHES__ placeholder");
+}
+htaccess = htaccess.split("__CSP_SCRIPT_HASHES__").join([...hashes].sort().join(" "));
+if (htaccess.includes("__CSP_SCRIPT_HASHES__")) {
+  throw new Error("csp: placeholder still present after replacement");
+}
+fs.writeFileSync(htaccessPath, htaccess);
+console.log(`csp: hashed ${hashes.size} inline scripts`);
 
 /* ---- sitemap ---- */
 const today = new Date().toISOString().slice(0, 10);

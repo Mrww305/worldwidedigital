@@ -54,6 +54,21 @@ export default function App({
 
   useEffect(() => {
     if (prerender || showBackground) return;
+
+    // Skip the scene entirely — not just defer it — when it would be wasted
+    // or hostile: reduced-motion users, metered/2G connections, and phones.
+    // The static vignette layer already provides the visual depth there.
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const smallScreen = window.matchMedia("(max-width: 767px)").matches;
+    const connection = (
+      navigator as Navigator & {
+        connection?: { saveData?: boolean; effectiveType?: string };
+      }
+    ).connection;
+    const metered =
+      connection?.saveData === true || /(^|-)2g$/.test(connection?.effectiveType ?? "");
+    if (reduceMotion || smallScreen || metered) return;
+
     const enable = () => setShowBackground(true);
     const events: (keyof WindowEventMap)[] = [
       "pointerdown",

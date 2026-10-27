@@ -1,12 +1,59 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import SplitText from "./SplitText";
 import { Reveal } from "./Section";
 import { IDENTITY, LINKS } from "../data/cv";
 
+type SendState = "idle" | "sending" | "sent" | "error";
+
+const ERROR_COPY: Record<string, string> = {
+  rate_limited: "RATE LIMIT REACHED — TRY AGAIN LATER OR EMAIL DIRECTLY",
+  invalid_name: "CALLSIGN TOO SHORT",
+  invalid_email: "RETURN ADDRESS LOOKS INVALID",
+  invalid_message: "MESSAGE NEEDS AT LEAST 10 CHARACTERS",
+  payload_too_large: "MESSAGE TOO LONG",
+};
+
 export default function Contact() {
   const [copied, setCopied] = useState(false);
+  const [status, setStatus] = useState<SendState>("idle");
+  const [errorCode, setErrorCode] = useState("");
+
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (status === "sending") return;
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    setStatus("sending");
+    setErrorCode("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: String(formData.get("name") ?? ""),
+          email: String(formData.get("email") ?? ""),
+          message: String(formData.get("message") ?? ""),
+          website: String(formData.get("website") ?? ""),
+        }),
+      });
+      const payload = (await response.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
+      if (!response.ok || payload.ok !== true) {
+        throw new Error(payload.error || "send_failed");
+      }
+      form.reset();
+      setStatus("sent");
+    } catch (error) {
+      setErrorCode(error instanceof Error ? error.message : "send_failed");
+      setStatus("error");
+    }
+  };
 
   const copyEmail = async () => {
     try {
@@ -60,6 +107,97 @@ export default function Contact() {
               {copied ? "✓ COPIED TO BUFFER" : "COPY ADDRESS"}
             </button>
           </div>
+        </Reveal>
+
+        {/* transmission form — posts to the PHP endpoint on this server */}
+        <Reveal delay={0.2}>
+          <form
+            onSubmit={onSubmit}
+            className="relative mt-12 grid gap-6 border border-line p-6 md:grid-cols-2 md:p-8"
+            aria-labelledby="uplink-form-h"
+          >
+            <div className="flex items-center justify-between gap-4 border-b border-line pb-4 md:col-span-2">
+              <h3 id="uplink-form-h" className="font-mono text-[10px] tracking-[0.3em] text-faint">
+                TRANSMIT MESSAGE
+              </h3>
+              <span className="font-mono text-[9px] tracking-[0.24em] text-faint">
+                TLS · NO THIRD PARTIES
+              </span>
+            </div>
+
+            <label className="flex flex-col gap-2">
+              <span className="font-mono text-[10px] tracking-[0.22em] text-faint">CALLSIGN</span>
+              <input
+                name="name"
+                required
+                minLength={2}
+                maxLength={80}
+                autoComplete="name"
+                className="border border-line bg-transparent px-3 py-3 font-body text-sm text-ink outline-none transition-colors placeholder:text-faint/60 focus:border-signal/70"
+                placeholder="Your name"
+              />
+            </label>
+
+            <label className="flex flex-col gap-2">
+              <span className="font-mono text-[10px] tracking-[0.22em] text-faint">RETURN ADDRESS</span>
+              <input
+                name="email"
+                type="email"
+                required
+                maxLength={200}
+                autoComplete="email"
+                className="border border-line bg-transparent px-3 py-3 font-body text-sm text-ink outline-none transition-colors placeholder:text-faint/60 focus:border-signal/70"
+                placeholder="you@company.com"
+              />
+            </label>
+
+            <label className="flex flex-col gap-2 md:col-span-2">
+              <span className="font-mono text-[10px] tracking-[0.22em] text-faint">MESSAGE</span>
+              <textarea
+                name="message"
+                required
+                minLength={10}
+                maxLength={5000}
+                rows={5}
+                className="resize-y border border-line bg-transparent px-3 py-3 font-body text-sm text-ink outline-none transition-colors placeholder:text-faint/60 focus:border-signal/70"
+                placeholder="Scope, timeline, or the problem you want solved."
+              />
+            </label>
+
+            {/* Honeypot: off-screen, not focusable, never seen by humans. */}
+            <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+              <label>
+                Website
+                <input name="website" tabIndex={-1} autoComplete="off" />
+              </label>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-4 md:col-span-2">
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="border border-signal/60 px-5 py-3 font-mono text-[10px] tracking-[0.24em] text-signal transition-all duration-300 hover:bg-signal hover:text-black active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {status === "sending"
+                  ? "TRANSMITTING…"
+                  : status === "sent"
+                    ? "RECEIVED ✓"
+                    : "SEND TRANSMISSION"}
+              </button>
+
+              <p
+                role="status"
+                aria-live="polite"
+                className="font-mono text-[10px] tracking-[0.2em] text-faint"
+              >
+                {status === "sent"
+                  ? "MESSAGE RECEIVED — RESPONSE WITHIN 24H"
+                  : status === "error"
+                    ? ERROR_COPY[errorCode] ?? "TRANSMISSION FAILED — EMAIL DIRECTLY"
+                    : "STORED ON THIS SERVER · NEVER SHARED"}
+              </p>
+            </div>
+          </form>
         </Reveal>
 
         <div className="grid gap-14 py-14 lg:grid-cols-12">

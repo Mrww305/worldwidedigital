@@ -1,0 +1,10 @@
+# PHP entry points only. Nothing in here should be listable or downloadable.
+Options -Indexes
+
+<IfModule mod_headers.c>
+  Header always set Cache-Control "no-store"
+</IfModule>
+
+<FilesMatch "\.(sqlite|sqlite3|db|log|bak|env|json|md|txt)$">
+  Require all denied
+</FilesMatch>
