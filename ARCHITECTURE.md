@@ -114,8 +114,8 @@ and tag each submission with `source`, so the notification subject reads
 *"New contact form submission — liquid.sajidafridi.com"*. Preflight `OPTIONS`
 is answered with a 24-hour max-age; unknown origins get `403`.
 
-Controls: POST-only, 16 kB body cap, honeypot field, per-IP limit of 5/hour and
-a global 60/hour ceiling, control-character stripping, `FILTER_VALIDATE_EMAIL`,
+Controls: POST-only, 16 kB body cap, honeypot field, per-IP limit of 10/hour and
+a global 100/hour ceiling, control-character stripping, `FILTER_VALIDATE_EMAIL`,
 prepared statements, IP stored only as a salted SHA-256.
 
 **Headers.** HSTS, `nosniff`, `SAMEORIGIN`, Referrer-Policy, Permissions-Policy,
